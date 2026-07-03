@@ -87,24 +87,6 @@ const BOOT: TLine[] = [
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const TICKER = [
-  'STATUS: AVAILABLE FOR COLLABORATION',
-  'RUST · TYPESCRIPT · SOLIDITY · PYTHON',
-  'CHAINS: VARA · ETHEREUM · POLKADOT',
-  'LOCATION: MADRID, SPAIN 🇪🇸',
-  'WEB3 SINCE: 2017',
-  'GITHUB: EugenWay — PULL SHARK ×3',
-  'GEAR FOUNDATION: SHIPPING ON-CHAIN',
-]
-
-const SKILLS: Record<string, string[]> = {
-  'languages':   ['Rust', 'TypeScript', 'Solidity', 'Python', 'JS'],
-  'blockchain':  ['Gear/Vara', 'Ethereum', 'Polkadot', 'Substrate'],
-  'defi':        ['Perp Futures', 'CLOB', 'Liquidations', 'Funding', 'Oracles'],
-  'tools':       ['Sails', 'gclient', 'polkadot.js', 'Pyth'],
-  'arch':        ['Event-Driven', 'Actor Model', 'Cross-chain'],
-}
-
 const EXPERIENCE = [
   {
     period: '2021 → present',
@@ -604,20 +586,6 @@ function Hero() {
         <Terminal />
       </div>
     </section>
-  )
-}
-
-// ─── Ticker ───────────────────────────────────────────────────────────────────
-
-function Ticker() {
-  const text = TICKER.join('  ·  ') + '  ·  ' + TICKER.join('  ·  ')
-  return (
-    <div className="ticker-wrap">
-      <div className="ticker-track">
-        <span>{text}</span>
-        <span aria-hidden>{text}</span>
-      </div>
-    </div>
   )
 }
 
