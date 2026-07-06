@@ -114,6 +114,14 @@ jobs:
           chmod 600 .env
           npm ci --omit=dev
 
+          if command -v lsof >/dev/null 2>&1; then
+            port_pids="$(lsof -ti tcp:"$BACKEND_PORT" -sTCP:LISTEN || true)"
+            if [ -n "$port_pids" ]; then
+              kill $port_pids || true
+              sleep 1
+            fi
+          fi
+
           if command -v pm2 >/dev/null 2>&1; then
             pm2 delete chainsawman-chat >/dev/null 2>&1 || true
             pm2 start "$SERVER_PATH/index.js" --name chainsawman-chat --cwd "$SERVER_PATH" --update-env
@@ -123,13 +131,6 @@ jobs:
               old_pid="$(cat chainsawman-chat.pid || true)"
               if [ -n "$old_pid" ] && kill -0 "$old_pid" 2>/dev/null; then
                 kill "$old_pid" || true
-                sleep 1
-              fi
-            fi
-            if command -v lsof >/dev/null 2>&1; then
-              port_pids="$(lsof -ti tcp:"$BACKEND_PORT" -sTCP:LISTEN || true)"
-              if [ -n "$port_pids" ]; then
-                kill $port_pids || true
                 sleep 1
               fi
             fi
