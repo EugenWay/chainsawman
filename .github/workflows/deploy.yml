@@ -115,11 +115,8 @@ jobs:
           npm ci --omit=dev
 
           if command -v pm2 >/dev/null 2>&1; then
-            if pm2 describe chainsawman-chat >/dev/null 2>&1; then
-              pm2 restart chainsawman-chat --update-env
-            else
-              pm2 start index.js --name chainsawman-chat --update-env
-            fi
+            pm2 delete chainsawman-chat >/dev/null 2>&1 || true
+            pm2 start "$SERVER_PATH/index.js" --name chainsawman-chat --cwd "$SERVER_PATH" --update-env
             pm2 save >/dev/null 2>&1 || true
           else
             if [ -f chainsawman-chat.pid ]; then
@@ -129,12 +126,23 @@ jobs:
                 sleep 1
               fi
             fi
+            if command -v lsof >/dev/null 2>&1; then
+              port_pids="$(lsof -ti tcp:"$BACKEND_PORT" -sTCP:LISTEN || true)"
+              if [ -n "$port_pids" ]; then
+                kill $port_pids || true
+                sleep 1
+              fi
+            fi
             nohup node index.js > chainsawman-chat.log 2>&1 &
             echo $! > chainsawman-chat.pid
           fi
 
           sleep 2
           curl -fsS "http://127.0.0.1:${BACKEND_PORT}/api/health" >/dev/null
+          curl -fsS -X POST "http://127.0.0.1:${BACKEND_PORT}/api/chat" \
+            -H 'content-type: application/json' \
+            -H 'x-cw-chat: 1' \
+            --data '{"message":"deploy smoke test","history":[]}' >/dev/null
           REMOTE
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}

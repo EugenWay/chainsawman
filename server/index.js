@@ -33,6 +33,15 @@ const app = express()
 app.set('trust proxy', 1) // single nginx hop in front — req.ip = real client
 app.use(express.json({ limit: '4kb' }))
 
+function upstreamErrorInfo(err) {
+  const status = Number(err?.status) || null
+  if (status === 401) return { status, kind: 'auth' }
+  if (status === 429) return { status, kind: 'rate_limited' }
+  if (status && status >= 500) return { status, kind: 'provider' }
+  if (err?.code) return { status, kind: String(err.code).slice(0, 64) }
+  return { status, kind: err?.name || 'request_failed' }
+}
+
 // CORS allowlist — only our own origins may call the API from a browser
 app.use((req, res, next) => {
   const origin = req.headers.origin
@@ -117,8 +126,9 @@ app.post('/api/chat',
       console.log(`[chat] ip=${req.ip} in=${u?.prompt_tokens ?? '?'} out=${u?.completion_tokens ?? '?'} day=${dayCount}/${GLOBAL_DAILY_LIMIT}`)
       res.json({ reply })
     } catch (err) {
-      console.error('[chat] error:', err?.status || '', err?.message || err)
-      res.status(502).json({ error: 'upstream', reply: 'brain lag. try again in a moment.' })
+      const upstream = upstreamErrorInfo(err)
+      console.error('[chat] error:', `status=${upstream.status ?? '?'}`, `kind=${upstream.kind}`)
+      res.status(502).json({ error: 'upstream', upstream, reply: 'brain lag. try again in a moment.' })
     }
   }
 )
