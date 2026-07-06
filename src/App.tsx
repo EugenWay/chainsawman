@@ -44,70 +44,93 @@ interface TLine {
   pause?: number
 }
 
-interface Note {
-  id: string
-  title: string
-  content: string
-  date: string
-  tags: string[]
-}
-
 // ─── Terminal boot sequence ───────────────────────────────────────────────────
 
 const BOOT: TLine[] = [
   { type: 'cmd',   text: 'init_profile --user=eugene_way --force', pause: 400 },
   { type: 'out',   text: '  loading...', pause: 200 },
   { type: 'out',   text: '  name        : Eugene Way', pause: 100 },
-  { type: 'out',   text: '  role        : Blockchain Dev / DeFi Engineer', pause: 100 },
-  { type: 'out',   text: '  org         : Gear Foundation', pause: 100 },
-  { type: 'out',   text: '  web3_since  : 2017', pause: 100 },
+  { type: 'out',   text: '  role        : Growth Tech Lead / Blockchain Engineer', pause: 100 },
+  { type: 'out',   text: '  org         : Gear Technologies Inc.', pause: 100 },
+  { type: 'out',   text: '  gear_since  : 2021', pause: 100 },
   { type: 'out',   text: '  location    : Madrid, Spain 🇪🇸', pause: 100 },
   { type: 'out',   text: '  github      : github.com/EugenWay', pause: 100 },
   { type: 'out',   text: '  email       : relax211@gmail.com', pause: 100 },
-  { type: 'out',   text: '  linkedin    : linkedin.com/in/eugene-way', pause: 120 },
+  { type: 'out',   text: '  linkedin    : linkedin.com/in/eugene-way-5b81b4188', pause: 120 },
   { type: 'ok',    text: '[OK] profile loaded — 42ms', pause: 500 },
   { type: 'blank', text: '', pause: 200 },
   { type: 'cmd',   text: 'ls ~/skills', pause: 300 },
   { type: 'out',   text: '  languages   : Rust · TypeScript · Solidity · Python · JS', pause: 80 },
   { type: 'out',   text: '  blockchain  : Gear/Vara · Ethereum · Polkadot · Substrate', pause: 80 },
-  { type: 'out',   text: '  defi        : Perp Futures · CLOB · Liquidations · Funding · Oracles', pause: 80 },
+  { type: 'out',   text: '  defi        : Perp Futures · CLOB · Orderbooks · Oracles', pause: 80 },
   { type: 'out',   text: '  tools       : Sails · gclient · polkadot.js · Pyth', pause: 80 },
   { type: 'out',   text: '  arch        : Event-Driven · Actor Model · Cross-chain', pause: 300 },
   { type: 'blank', text: '', pause: 200 },
   { type: 'cmd',   text: 'ls ~/contracts --stat', pause: 300 },
-  { type: 'out',   text: '  VaraPerps      perp futures DEX · Rust/Sails · PROD', pause: 100 },
-  { type: 'out',   text: '  CrossPing      Vara↔Eth bridge · Solidity+Rust · LIVE', pause: 100 },
-  { type: 'out',   text: '  TradingSim     multi-bot engine · Rust/gclient · OPEN', pause: 300 },
+  { type: 'out',   text: '  VaraPerps      on-chain perps · CLOB · Rust/Sails', pause: 100 },
+  { type: 'out',   text: '  CrossPing      Ethereum↔Vara reference flow', pause: 100 },
+  { type: 'out',   text: '  Benchmarks     Gear.exe / Vara.eth performance demos', pause: 300 },
   { type: 'blank', text: '', pause: 200 },
   { type: 'cmd',   text: 'cat status.txt', pause: 200 },
   { type: 'ok',    text: 'open to collab on DeFi, cross-chain & on-chain derivatives', pause: 400 },
   { type: 'blank', text: '', pause: 150 },
-  { type: 'ok',    text: 'welcome, bitches 😎', pause: 0 },
+  { type: 'ok',    text: 'ghost online. ask me about the builds 😎', pause: 0 },
 ]
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const EXPERIENCE = [
   {
-    period: '2021 → present',
-    org: 'Gear Foundation / Gear Tech',
-    role: 'Blockchain Developer',
+    period: 'Aug 2021 → Jul 2023',
+    org: 'Gear Technologies Inc.',
+    role: 'Ecosystem Lead (Europe)',
     items: [
       {
-        text: 'Designed and built VaraPerps — perpetual futures DEX on Vara Network. Full CLOB with limit/market orders, cross/isolated margin, automated liquidations, funding rate engine, Pyth oracle integration.',
-        link: { label: '↗ github', url: 'https://github.com/EugenWay' },
-      },
-      {
-        text: 'Built CrossPing — Vara ↔ Ethereum bi-directional bridge. Solidity + Rust/Sails smart contracts + TypeScript relayer service. Full reference implementation.',
-        link: { label: '↗ github', url: 'https://github.com/EugenWay' },
-      },
-      {
-        text: 'Developed on-chain trading simulation engine in Rust: market maker, arbitrageur, liquidator, hodler bots running real transactions on Vara testnet via gclient.',
+        text: 'Built practical use cases, demos, and reference examples that showed what the Gear/Vara L1 could actually do.',
         link: null,
       },
       {
-        text: 'Authored whitepapers: Gear.exe technical architecture document and "How Perpetual Futures Work on Vara.eth". Active contributor: gear-foundation/dapps (★30, 204 forks) · gear-wiki (★225).',
-        link: { label: '↗ gear-wiki', url: 'https://wiki.gear.foundation' },
+        text: 'Worked across developer education, technical workshops, smart-contract examples, docs, and conference talks at Polkadot ecosystem events, Sub0, EthCC, and ETH conferences.',
+        link: { label: '↗ gear-wiki', url: 'https://github.com/gear-foundation/gear-wiki' },
+      },
+      {
+        text: 'Took abstract protocol capabilities and turned them into things builders could see, run, break, and build on top of.',
+        link: null,
+      },
+      {
+        text: 'Supported external integrations with ecosystem partners and infrastructure providers — wallets, explorers, market data platforms, data/indexing tools, and Polkadot developer tooling, including SubWallet, Subscan, CoinMarketCap, RPC setup, network metadata, and wallet/extension flows.',
+        link: null,
+      },
+    ],
+  },
+  {
+    period: 'Feb 2023 → present',
+    org: 'Gear Technologies Inc.',
+    role: 'Growth Tech Lead (Europe)',
+    items: [
+      {
+        text: 'Worked as the technical point between product, frontend, backend, and external contributors — scoping features, shaping architecture, reviewing implementation direction, and turning protocol ideas into things the team could actually ship.',
+        link: null,
+      },
+      {
+        text: 'Moved deeper into internal products, Vara.eth, and developer-facing infrastructure: technical docs, whitepapers, reference apps, cross-chain examples, and on-chain systems that made the platform easier to understand and harder to dismiss.',
+        link: { label: '↗ vara.eth', url: 'https://eth.vara.network/whitepaper' },
+      },
+      {
+        text: 'Worked on Vara.eth materials and architecture explainers, including the public whitepaper and technical documentation.',
+        link: { label: '↗ technical pdf', url: 'https://eth.vara.network/whitepaper/vara.eth-technical.pdf' },
+      },
+      {
+        text: 'Built and documented reference flows around Ethereum ↔ Vara messaging with Solidity, Rust/Sails, and TypeScript relayers.',
+        link: { label: '↗ cross-ping', url: 'https://github.com/gear-foundation/cross-ping' },
+      },
+      {
+        text: 'Built product prototypes and simulations around on-chain compute and DeFi: Gear.exe / Vara.eth benchmark examples, perp futures tooling, and trading simulation systems that run against real Vara contracts instead of staying as diagrams.',
+        link: null,
+      },
+      {
+        text: 'Public footprint: 600+ commits across Gear/Vara repos, from docs and ecosystem examples to cross-chain flows, whitepapers, and product prototypes.',
+        link: { label: '↗ github', url: 'https://github.com/search?q=author%3AEugenWay+org%3Agear-foundation&type=commits' },
       },
     ],
   },
@@ -117,73 +140,88 @@ const EXPERIENCE = [
     role: 'Developer & Web3 Consultant',
     items: [
       {
-        text: 'Consulted for Telegram on the Polkadot ecosystem — technical advisory, developer interviews, platform architecture reviews for their staking platform.',
-        link: null,
-      },
-      {
-        text: 'Conference speaker and workshop host — EthCC, Polkadot ecosystem events, Vara meetups. Live demos, not slides.',
-        link: null,
-      },
-      {
-        text: 'Built full-stack web applications with Node.js, Express, MongoDB, GraphQL. AI-powered e-commerce tooling and catalog management systems.',
+        text: 'Consulted for CoinTelegraph on the Polkadot ecosystem and architecture.',
         link: null,
       },
     ],
   },
 ]
 
-const MATERIALS = [
-  { title: 'Gear.exe Technical Whitepaper',            type: 'whitepaper', url: '#' },
-  { title: 'How Perpetual Futures Work on Vara.eth',   type: 'guide',      url: '#' },
-  { title: 'gear-foundation/dapps — 30★, 204 forks',  type: 'github',     url: 'https://github.com/gear-foundation/dapps' },
-  { title: 'gear-wiki — 225★',                        type: 'docs',       url: 'https://wiki.gear.foundation' },
-]
-
-const DEFAULT_NOTES: Note[] = [
+const MATERIAL_GROUPS = [
   {
-    id: '1',
-    title: 'why they call me chainsaw man',
-    content: `started in web3 in 2017.
-
-like denji — i don't have the cleanest approach, but i cut through the noise and i ship.
-
-while everyone was spinning up nft stores, i was deep in substrate internals, zk proofs, and writing whitepapers that actually made sense.
-
-chainsaw man is the one who shows up, gets his hands dirty, and gets the job done.`,
-    date: '2024-01-15',
-    tags: ['meta'],
+    label: 'articles',
+    description: 'thinking / technical narratives',
+    items: [
+      {
+        title: 'Real DeFi: Build HyperLiquid on Ethereum with Vara.eth',
+        type: 'medium',
+        url: 'https://medium.com/@VaraNetwork/real-defi-build-hyperliquid-on-ethereum-with-vara-eth-1617b84fd7a5',
+      },
+      {
+        title: 'OrderBook on Vara.eth',
+        type: 'medium',
+        url: 'https://medium.com/@VaraNetwork/orderbook-on-vara-eth-dd71d420feb1',
+      },
+      {
+        title: 'Fractured But Whole: Ethereum Fragmentation',
+        type: 'medium',
+        url: 'https://medium.com/@gear_techs/fractured-but-whole-can-ethereums-fragmentation-challenge-be-solved-77b7740f356b',
+      },
+      {
+        title: 'Introducing Gear.exe: Computation Engine for Ethereum',
+        type: 'medium',
+        url: 'https://medium.com/@gear_techs/introducing-gear-exe-computation-engine-for-ethereum-54816874d8e6',
+      },
+    ],
   },
   {
-    id: '2',
-    title: 'on building defi primitives on-chain',
-    content: `perp futures are the hardest thing to get right on-chain.
-
-funding rates, liquidation engines, oracle manipulation resistance — every piece has to fit perfectly.
-
-varaperps was my way of proving it can be done outside of ethereum, with better performance and actor-model concurrency.
-
-the clob on vara is something most people said couldn't work. we shipped it.`,
-    date: '2024-02-10',
-    tags: ['defi', 'vara'],
+    label: 'docs',
+    description: 'whitepapers / architecture',
+    items: [
+      {
+        title: 'Vara.eth Whitepaper',
+        type: 'whitepaper',
+        url: 'https://eth.vara.network/whitepaper',
+      },
+      {
+        title: 'Vara.eth Technical PDF',
+        type: 'pdf',
+        url: 'https://eth.vara.network/whitepaper/vara.eth-technical.pdf',
+      },
+      {
+        title: 'Vara Bridge Technical Overview',
+        type: 'docs',
+        url: 'https://wiki.gear.foundation/docs/vara-network/bridge/bridge_technical',
+      },
+    ],
+  },
+  {
+    label: 'demos',
+    description: 'code / videos / reference apps',
+    items: [
+      {
+        title: 'Gear.exe performance benchmark demo',
+        type: 'youtube',
+        url: 'https://www.youtube.com/watch?v=KXLQ5kbteS0',
+      },
+      {
+        title: 'OrderBook on Vara.eth demo',
+        type: 'x',
+        url: 'https://x.com/VaraNetwork/status/2064713689886785989',
+      },
+      {
+        title: 'CrossPing: Ethereum ↔ Vara reference flow',
+        type: 'github',
+        url: 'https://github.com/gear-foundation/cross-ping',
+      },
+      {
+        title: 'Vara.eth dApps and benchmark examples',
+        type: 'github',
+        url: 'https://github.com/gear-foundation/Vara.eth-dapps',
+      },
+    ],
   },
 ]
-
-// ─── Hook ─────────────────────────────────────────────────────────────────────
-
-function useLocalStorage<T>(key: string, init: T) {
-  const [val, setVal] = useState<T>(() => {
-    try {
-      const s = localStorage.getItem(key)
-      return s ? (JSON.parse(s) as T) : init
-    } catch { return init }
-  })
-  const set = (v: T | ((p: T) => T)) => {
-    const next = v instanceof Function ? v(val) : v
-    setVal(next)
-    localStorage.setItem(key, JSON.stringify(next))
-  }
-  return [val, set] as const
-}
 
 // ─── Particle title ───────────────────────────────────────────────────────────
 
@@ -371,43 +409,17 @@ function ParticleTitle() {
   )
 }
 
-// ─── Terminal commands ────────────────────────────────────────────────────────
-
-const CMD_RESPONSES: Record<string, TLine[]> = {
-  help: [
-    { type: 'out',   text: '  commands: help · whoami · contact · ls · clear', pause: 0 },
-  ],
-  whoami: [
-    { type: 'out',   text: '  Eugene Way — blockchain dev / DeFi engineer', pause: 0 },
-    { type: 'out',   text: '  web3 since 2017 · Madrid, Spain 🇪🇸', pause: 0 },
-    { type: 'out',   text: '  // chainsaw man of web3', pause: 0 },
-  ],
-  contact: [
-    { type: 'out',   text: '  github   : github.com/EugenWay', pause: 0 },
-    { type: 'out',   text: '  email    : relax211@gmail.com', pause: 0 },
-    { type: 'out',   text: '  linkedin : linkedin.com/in/eugene-way', pause: 0 },
-  ],
-  ls: [
-    { type: 'out',   text: '  VaraPerps · CrossPing · TradingSim', pause: 0 },
-  ],
-  'cat status.txt': [
-    { type: 'ok',    text: 'open to collab on DeFi, cross-chain & on-chain derivatives', pause: 0 },
-  ],
-  hack: [
-    { type: 'out',   text: '  initiating hack sequence...', pause: 0 },
-    { type: 'ok',    text: 'access denied. nice try though 😎', pause: 0 },
-  ],
-}
-
 // ─── Terminal ─────────────────────────────────────────────────────────────────
 
 function Terminal() {
   const [lines, setLines]     = useState<TLine[]>([])
   const [done, setDone]       = useState(false)
   const [input, setInput]     = useState('')
+  const [busy, setBusy]       = useState(false)
   const bodyRef               = useRef<HTMLDivElement>(null)
   const inputRef              = useRef<HTMLInputElement>(null)
   const userScrolled          = useRef(false)
+  const history               = useRef<{ role: 'user' | 'assistant'; content: string }[]>([])
 
   // Boot animation
   useEffect(() => {
@@ -445,23 +457,74 @@ function Terminal() {
     }
   }, [lines])
 
+  // Typewriter-reveal a reply line, matching the boot animation vibe
+  const typeLine = (text: string) => new Promise<void>(resolve => {
+    setLines(prev => [...prev, { type: 'out', text: '' }])
+    let i = 0
+    const iv = setInterval(() => {
+      i += 2
+      setLines(prev => {
+        const copy = [...prev]
+        copy[copy.length - 1] = { type: 'out', text: '  ' + text.slice(0, i) }
+        return copy
+      })
+      if (i >= text.length) { clearInterval(iv); resolve() }
+    }, 12)
+  })
+
+  const askAI = async (question: string) => {
+    setBusy(true)
+    setLines(prev => [...prev, { type: 'out', text: '  ...' }])
+    userScrolled.current = false
+    let reply = ''
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-cw-chat': '1' },
+        body: JSON.stringify({ message: question, history: history.current }),
+      })
+      const data = await res.json().catch(() => ({} as { reply?: string }))
+      reply = data.reply || (res.status === 429
+        ? 'easy tiger — rate limited. give it a sec.'
+        : 'brain lag. try again in a moment.')
+    } catch {
+      reply = 'connection glitch. is the backend up?'
+    }
+    setLines(prev => prev.slice(0, -1)) // drop the "..." placeholder
+    await typeLine(reply)
+    setLines(prev => [...prev, { type: 'blank', text: '' }])
+    history.current = [
+      ...history.current,
+      { role: 'user' as const, content: question },
+      { role: 'assistant' as const, content: reply },
+    ].slice(-6)
+    setBusy(false)
+    setTimeout(() => inputRef.current?.focus(), 20)
+  }
+
   const handleKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== 'Enter') return
-    const cmd = input.trim().toLowerCase()
+    if (e.key !== 'Enter' || busy) return
+    const raw = input.trim()
+    if (!raw) return
     setInput('')
+    const cmd = raw.toLowerCase()
+    const cmdLine: TLine = { type: 'cmd', text: raw, pause: 0 }
 
-    const cmdLine: TLine = { type: 'cmd', text: input.trim(), pause: 0 }
+    if (cmd === 'clear') { setLines([]); return }
 
-    if (cmd === 'clear') {
-      setLines([])
+    setLines(prev => [...prev, cmdLine])
+
+    if (cmd === 'help') {
+      setLines(prev => [...prev,
+        { type: 'out', text: '  just talk to me — ask about my work, projects, web3, whatever.', pause: 0 },
+        { type: 'out', text: '  commands: help · clear', pause: 0 },
+        { type: 'blank', text: '', pause: 0 },
+      ])
+      userScrolled.current = false
       return
     }
 
-    const response = CMD_RESPONSES[cmd] ?? [
-      { type: 'out', text: `  command not found: ${cmd} — try 'help'`, pause: 0 },
-    ]
-    setLines(prev => [...prev, cmdLine, ...response, { type: 'blank', text: '', pause: 0 }])
-    userScrolled.current = false
+    askAI(raw)
   }
 
   return (
@@ -489,13 +552,14 @@ function Terminal() {
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKey}
+              disabled={busy}
               spellCheck={false}
               autoComplete="off"
               autoCorrect="off"
               style={{ width: input.length > 0 ? `${input.length}ch` : '0px' }}
             />
             <span className="block-cursor">█</span>
-            {input === '' && <span className="term-hint">ask me anything...</span>}
+            {input === '' && <span className="term-hint">{busy ? 'thinking…' : 'ask me anything...'}</span>}
           </div>
         )}
       </div>
@@ -508,7 +572,7 @@ function Terminal() {
 function Header() {
   const [dark, setDark] = useState(true)
   const [open, setOpen] = useState(false)
-  const NAV = ['about', 'experience', 'materials', 'notes']
+  const NAV = ['about', 'experience', 'materials']
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
@@ -530,7 +594,7 @@ function Header() {
       <div className="wrap">
         <span className="header-brand">
           <span className="g">EW</span>
-          <span className="dim"> [v1]</span>
+          <span className="dim"> [v1.1]</span>
         </span>
 
         {/* desktop nav */}
@@ -547,7 +611,6 @@ function Header() {
           <a href="https://github.com/EugenWay" target="_blank" rel="noreferrer" className="hbtn">
             <GhIcon /> github
           </a>
-          <button className="btn-wallet">Connect Wallet</button>
 
           {/* burger */}
           <button className={`burger${open ? ' burger--open' : ''}`} onClick={() => setOpen(o => !o)} aria-label="menu">
@@ -636,7 +699,7 @@ function Experience() {
       </div>
       <div className="output">
         {EXPERIENCE.map(exp => (
-          <div key={exp.org} className="exp-block">
+          <div key={`${exp.period}-${exp.role}`} className="exp-block">
             <div className="exp-header">
               <span className="exp-period dim">[{exp.period}]</span>
               <span className="exp-org g"> {exp.org}</span>
@@ -671,101 +734,21 @@ function Materials() {
         <span className="sec-label">// MATERIALS</span>
       </div>
       <div className="output">
-        {MATERIALS.map(m => (
-          <a key={m.title} href={m.url} target="_blank" rel="noreferrer" className="mat-row">
-            <span className="mat-type">[{m.type}]</span>
-            <span className="mat-title">{m.title}</span>
-            <span className="dim mat-arr">→</span>
-          </a>
+        {MATERIAL_GROUPS.map(group => (
+          <div key={group.label} className="mat-group">
+            <div className="mat-group-head">
+              <span className="mat-group-label">[{group.label}]</span>
+              <span className="dim">{group.description}</span>
+            </div>
+            {group.items.map(m => (
+              <a key={m.title} href={m.url} target="_blank" rel="noreferrer" className="mat-row">
+                <span className="mat-type">[{m.type}]</span>
+                <span className="mat-title">{m.title}</span>
+                <span className="dim mat-arr">→</span>
+              </a>
+            ))}
+          </div>
         ))}
-      </div>
-    </section>
-  )
-}
-
-// ─── Notes ────────────────────────────────────────────────────────────────────
-
-function Notes() {
-  const [notes, setNotes] = useLocalStorage<Note[]>('ew-notes', DEFAULT_NOTES)
-  const [activeId, setActiveId] = useState<string | null>(notes[0]?.id ?? null)
-  const [editing, setEditing] = useState(false)
-  const [draft, setDraft] = useState<Partial<Note>>({})
-
-  const active = notes.find(n => n.id === activeId) ?? null
-
-  function newNote() {
-    const id = Date.now().toString()
-    const note: Note = { id, title: 'untitled', content: '', date: new Date().toISOString().slice(0, 10), tags: [] }
-    setNotes(prev => [note, ...prev])
-    setActiveId(id)
-    setDraft(note)
-    setEditing(true)
-  }
-
-  function save() {
-    setNotes(prev => prev.map(n => n.id === activeId ? { ...n, ...draft } as Note : n))
-    setEditing(false)
-  }
-
-  function del(id: string) {
-    const rest = notes.filter(n => n.id !== id)
-    setNotes(rest)
-    setActiveId(rest[0]?.id ?? null)
-    setEditing(false)
-  }
-
-  return (
-    <section className="section" id="notes">
-      <div className="sec-head">
-        <span className="sec-label">// NOTES</span>
-        <span className="dim" style={{ fontSize: '0.7rem' }}>stored in localStorage</span>
-      </div>
-      <div className="notes-layout">
-        <div className="notes-sidebar">
-          <button className="btn-new-note" onClick={newNote}>+ new note</button>
-          {notes.map(n => (
-            <button key={n.id} onClick={() => { setActiveId(n.id); setEditing(false) }}
-              className={`note-btn ${n.id === activeId ? 'active' : ''}`}>
-              <div className="nbtn-title">{n.title}</div>
-              <div className="nbtn-date dim">{n.date}</div>
-              {n.tags.length > 0 && (
-                <div className="nbtn-tags">{n.tags.map(t => <span key={t} className="ntag">{t}</span>)}</div>
-              )}
-            </button>
-          ))}
-        </div>
-
-        <div className="notes-pane">
-          {!active && <pre className="dim" style={{ fontSize: '0.78rem' }}>{`// no note selected\n// click + new note`}</pre>}
-
-          {active && !editing && (
-            <div className="note-view">
-              <div className="note-head">
-                <span className="g bold">{active.title}</span>
-                <span className="dim"> — {active.date}  </span>
-                {active.tags.map(t => <span key={t} className="ntag">{t}</span>)}
-              </div>
-              <pre className="note-body">{active.content}</pre>
-              <div className="note-acts">
-                <button onClick={() => { setDraft({ ...active }); setEditing(true) }} className="btn btn-g">edit</button>
-                <button onClick={() => del(active.id)} className="btn btn-dim">delete</button>
-              </div>
-            </div>
-          )}
-
-          {active && editing && (
-            <div className="note-editor">
-              <input className="ne-title" value={draft.title ?? ''} onChange={e => setDraft(d => ({ ...d, title: e.target.value }))} placeholder="title..." />
-              <input className="ne-tags" value={(draft.tags ?? []).join(', ')} onChange={e => setDraft(d => ({ ...d, tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean) }))} placeholder="tags: defi, vara..." />
-              <textarea className="ne-body" value={draft.content ?? ''} onChange={e => setDraft(d => ({ ...d, content: e.target.value }))} placeholder="write..." />
-              <div className="note-acts">
-                <button onClick={save} className="btn btn-g">:w save</button>
-                <button onClick={() => setEditing(false)} className="btn btn-dim">:q cancel</button>
-                <button onClick={() => del(active.id)} className="btn btn-danger">:d delete</button>
-              </div>
-            </div>
-          )}
-        </div>
       </div>
     </section>
   )
@@ -783,11 +766,10 @@ export default function App() {
         <About />
         <Experience />
         <Materials />
-        <Notes />
       </main>
       <footer className="footer">
-        <span className="dim">// </span>eugene way © 2025
-        <span className="dim"> — madrid · gear foundation</span>
+        <span className="dim">// </span>eugene way © 2026
+        <span className="dim"> — madrid</span>
         <span className="cursor"> █</span>
       </footer>
     </div>
