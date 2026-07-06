@@ -599,26 +599,27 @@ function About() {
       </div>
       <div className="output about-text">
         <p>
-          Beyond the <span className="g">exceptional aesthetic taste</span> (obviously 🎨) — I have real,
-          hands-in-the-mud engineering skills. Rust, Solidity, TypeScript,
-          on-chain architecture, protocol design. Not slides. Actual code that runs in production.
+          Beyond the <span className="g">exceptional aesthetic taste</span>. I can actually build things.
         </p>
         <p>
-          Web3 has a funny way of making you wear every hat in the wardrobe. 🪖
-          Over the past 7+ years I've been: smart contract engineer, DeFi protocol designer,
-          cross-chain bridge builder, trading bot developer, technical writer, DevRel,
-          conference speaker, internal architect. Sometimes all in the same month.
+          Web3 has a funny way of making you try on every hat in the wardrobe.
+          Over the years I've worked across ecosystem, DevRel, technical writing,
+          smart contracts, cross-chain infrastructure, conference talks, and product
+          architecture. Sometimes in the same month. Honestly, I like it that way.
         </p>
         <p>
-          Started in 2017 when "blockchain developer" wasn't even a job title.
-          Ended up deep in Substrate internals, then building AMMs and CLOBs,
-          then writing whitepapers nobody asked for but everyone quietly read. 🪚
-          Now shipping on-chain perp futures and bridges on Vara that actually work.
+          I started around the Substrate and smart-contract rabbit hole, then kept
+          going deeper: AMMs, CLOBs, bridges, whitepapers, perp futures, and enough
+          protocol edge cases to ruin a normal person's weekend.
         </p>
         <p>
-          I don't do surface-level. If it's worth building — it gets built properly,
-          with the right primitives, the right architecture, and
-          <span className="g"> zero tolerance for duct tape solutions</span>. That's the chainsaw man way.
+          These days, most of my work sits around Vara and Vara.eth: building DeFi
+          primitives, cross-chain flows, reference apps, technical docs, and all the
+          weird little use cases that turn a protocol from "interesting" into actually usable.
+        </p>
+        <p>
+          That's the chainsaw man way: cut through the noise, get your hands dirty,
+          <span className="g"> ship the thing properly</span>.
         </p>
       </div>
     </section>
