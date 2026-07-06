@@ -9,6 +9,11 @@ concurrency:
   group: deploy-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  BACKEND_PORT: ${{ vars.BACKEND_PORT || '8787' }}
+  GLOBAL_DAILY_LIMIT: ${{ vars.GLOBAL_DAILY_LIMIT || '1500' }}
+  OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4o-mini' }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -48,3 +53,91 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+
+      - name: Resolve backend path
+        run: |
+          set -euo pipefail
+          SERVER_PATH="${SERVER_DEPLOY_PATH:-${DEPLOY_PATH%/}-server}"
+          echo "SERVER_PATH=$SERVER_PATH" >> "$GITHUB_ENV"
+          ssh -i ~/.ssh/deploy_key -p "${SSH_PORT:-22}" \
+            "${SSH_USER}@${SSH_HOST}" \
+            "mkdir -p $(printf '%q' "$SERVER_PATH")"
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          SERVER_DEPLOY_PATH: ${{ secrets.SERVER_DEPLOY_PATH }}
+
+      - name: Deploy backend via rsync
+        run: |
+          set -euo pipefail
+          rsync -avz --delete \
+            --exclude node_modules \
+            --exclude .env \
+            -e "ssh -i ~/.ssh/deploy_key -p ${SSH_PORT:-22}" \
+            server/ "${SSH_USER}@${SSH_HOST}:${SERVER_PATH}/"
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+
+      - name: Configure and restart backend
+        run: |
+          set -euo pipefail
+          if [ -z "${OPENAI_API_KEY:-}" ]; then
+            echo "OPENAI_API_KEY secret is missing"
+            exit 1
+          fi
+
+          env_file="$(mktemp)"
+          trap 'rm -f "$env_file"' EXIT
+          {
+            printf 'OPENAI_API_KEY=%s\n' "$OPENAI_API_KEY"
+            printf 'OPENAI_MODEL=%s\n' "$OPENAI_MODEL"
+            printf 'PORT=%s\n' "$BACKEND_PORT"
+            printf 'GLOBAL_DAILY_LIMIT=%s\n' "$GLOBAL_DAILY_LIMIT"
+          } > "$env_file"
+
+          rsync -avz \
+            -e "ssh -i ~/.ssh/deploy_key -p ${SSH_PORT:-22}" \
+            "$env_file" "${SSH_USER}@${SSH_HOST}:${SERVER_PATH}/.env.tmp"
+
+          remote_path="$(printf '%q' "$SERVER_PATH")"
+          remote_port="$(printf '%q' "$BACKEND_PORT")"
+          ssh -i ~/.ssh/deploy_key -p "${SSH_PORT:-22}" \
+            "${SSH_USER}@${SSH_HOST}" \
+            "SERVER_PATH=$remote_path BACKEND_PORT=$remote_port bash -s" <<'REMOTE'
+          set -euo pipefail
+          cd "$SERVER_PATH"
+          mv .env.tmp .env
+          chmod 600 .env
+          npm ci --omit=dev
+
+          if command -v pm2 >/dev/null 2>&1; then
+            if pm2 describe chainsawman-chat >/dev/null 2>&1; then
+              pm2 restart chainsawman-chat --update-env
+            else
+              pm2 start index.js --name chainsawman-chat --update-env
+            fi
+            pm2 save >/dev/null 2>&1 || true
+          else
+            if [ -f chainsawman-chat.pid ]; then
+              old_pid="$(cat chainsawman-chat.pid || true)"
+              if [ -n "$old_pid" ] && kill -0 "$old_pid" 2>/dev/null; then
+                kill "$old_pid" || true
+                sleep 1
+              fi
+            fi
+            nohup node index.js > chainsawman-chat.log 2>&1 &
+            echo $! > chainsawman-chat.pid
+          fi
+
+          sleep 2
+          curl -fsS "http://127.0.0.1:${BACKEND_PORT}/api/health" >/dev/null
+          REMOTE
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
