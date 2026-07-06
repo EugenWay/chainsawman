@@ -280,6 +280,7 @@ body {
 }
 
 .particle-title-wrap canvas {
+  display: block;
   touch-action: none;
   cursor: crosshair;
 }

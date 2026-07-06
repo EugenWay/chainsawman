@@ -249,14 +249,15 @@ function ParticleTitle() {
     let raf: number
     let cancelled = false
     const mouse = { x: -999, y: -999 }
-    const CELL = 9
     const isTouchDevice = 'ontouchstart' in window
-    const MOUSE_R = isTouchDevice ? 160 : 110
+    let cell = 9
+    let mouseR = isTouchDevice ? 160 : 110
     let particles: Particle[] = []
     let W = 0, H = 0
 
     const rndCh = () => {
       const h = () => PT_ASCII[Math.floor(Math.random() * PT_ASCII.length)]
+      if (cell <= 4) return h()
       const r = Math.random()
       if (r < 0.06) return '0x'      // null byte standalone
       if (r < 0.12) return h()       // single nibble
@@ -265,6 +266,9 @@ function ParticleTitle() {
 
     const init = () => {
       W = wrap.offsetWidth || 800
+      const isMobileTitle = W <= 560
+      cell = isMobileTitle ? 4 : 9
+      mouseR = isTouchDevice ? (isMobileTitle ? 96 : 160) : 110
 
       const probe = document.createElement('canvas').getContext('2d')!
       let FS = 130
@@ -299,19 +303,21 @@ function ParticleTitle() {
       const imgW = octx.getImageData(0, 0, W, H).data
 
       const cx = W / 2, cy = H / 2
-      const cols = Math.floor(W / CELL)
-      const rows = Math.floor(H / CELL)
+      const cols = Math.floor(W / cell)
+      const rows = Math.floor(H / cell)
       particles = []
 
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
-          const i = (r * CELL * W + c * CELL) * 4
+          const px = Math.min(W - 1, c * cell)
+          const py = Math.min(H - 1, r * cell)
+          const i = (py * W + px) * 4
           const inE = imgE[i + 3] > 64
           const inW = imgW[i + 3] > 64
           if (!inE && !inW) continue
 
-          const tx = c * CELL + CELL / 2
-          const ty = r * CELL + CELL / 2
+          const tx = c * cell + cell / 2
+          const ty = r * cell + cell / 2
           const angle = Math.random() * Math.PI * 2
           const d     = 20 + Math.random() * Math.max(W, H) * 0.25
 
@@ -335,7 +341,7 @@ function ParticleTitle() {
       const purple  = isLight ? textCol : (cs.getPropertyValue('--purple').trim() || '#a78bfa')
 
       ctx.clearRect(0, 0, W, H)
-      ctx.font = `${CELL - 1}px "JetBrains Mono", monospace`
+      ctx.font = `${cell <= 4 ? cell : cell - 1}px "JetBrains Mono", monospace`
 
       for (const p of particles) {
         // Spring to target
@@ -345,8 +351,8 @@ function ParticleTitle() {
         // Mouse repulsion
         const dx = p.x - mouse.x, dy = p.y - mouse.y
         const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < MOUSE_R && dist > 0.5) {
-          const f = ((MOUSE_R - dist) / MOUSE_R) * 9
+        if (dist < mouseR && dist > 0.5) {
+          const f = ((mouseR - dist) / mouseR) * 9
           p.vx += (dx / dist) * f
           p.vy += (dy / dist) * f
         }
@@ -360,7 +366,7 @@ function ParticleTitle() {
         }
 
         ctx.fillStyle = p.word === 'W' ? purple : green
-        ctx.fillText(p.ch, p.x - CELL / 2, p.y + CELL / 2)
+        ctx.fillText(p.ch, p.x - cell / 2, p.y + cell / 2)
       }
 
       raf = requestAnimationFrame(tick)
@@ -390,6 +396,8 @@ function ParticleTitle() {
 
     const mo = new MutationObserver(() => { if (!cancelled) init() })
     mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+    const ro = new ResizeObserver(() => { if (!cancelled) init() })
+    ro.observe(wrap)
 
     return () => {
       cancelled = true
@@ -399,12 +407,13 @@ function ParticleTitle() {
       canvas.removeEventListener('touchmove',  onTouch)
       canvas.removeEventListener('touchend',   onTouchEnd)
       mo.disconnect()
+      ro.disconnect()
     }
   }, [])
 
   return (
     <div ref={wrapRef} className="particle-title-wrap">
-      <canvas ref={canvasRef} aria-label="Eugene Way" role="img" />
+      <canvas ref={canvasRef} className="particle-title-canvas" aria-label="Eugene Way" role="img" />
     </div>
   )
 }
