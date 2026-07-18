@@ -77,6 +77,8 @@ const BOOT: TLine[] = [
   { type: 'ok',    text: 'ghost online. ask me about the builds 😎', pause: 0 },
 ]
 
+const SUGGESTIONS = ['why hire eugene', 'show me proof', 'war stories', 'hot takes']
+
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const EXPERIENCE = [
@@ -425,6 +427,7 @@ function Terminal() {
   const [done, setDone]       = useState(false)
   const [input, setInput]     = useState('')
   const [busy, setBusy]       = useState(false)
+  const [asked, setAsked]     = useState(false)
   const bodyRef               = useRef<HTMLDivElement>(null)
   const inputRef              = useRef<HTMLInputElement>(null)
   const userScrolled          = useRef(false)
@@ -533,7 +536,15 @@ function Terminal() {
       return
     }
 
+    setAsked(true)
     askAI(raw)
+  }
+
+  const runSuggestion = (q: string) => {
+    if (busy) return
+    setAsked(true)
+    setLines(prev => [...prev, { type: 'cmd', text: q, pause: 0 }])
+    askAI(q)
   }
 
   return (
@@ -569,6 +580,17 @@ function Terminal() {
             />
             <span className="block-cursor">█</span>
             {input === '' && <span className="term-hint">{busy ? 'thinking…' : 'ask me anything...'}</span>}
+          </div>
+        )}
+        {done && !asked && !busy && (
+          <div className="term-suggest">
+            <span className="term-suggest-label">try:</span>
+            {SUGGESTIONS.map(s => (
+              <button key={s} className="term-chip"
+                onClick={e => { e.stopPropagation(); runSuggestion(s) }}>
+                {s}
+              </button>
+            ))}
           </div>
         )}
       </div>

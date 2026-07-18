@@ -383,6 +383,37 @@ body {
 [data-theme="light"] .block-cursor { color: var(--text); }
 .tl-ok > .tl-ok { color: var(--g); }
 
+.term-suggest {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.term-suggest-label {
+  color: var(--dim);
+  font-size: 0.68rem;
+}
+
+.term-chip {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--term-text);
+  font-family: inherit;
+  font-size: 0.68rem;
+  line-height: 1.6;
+  padding: 0.18rem 0.6rem;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.term-chip:hover {
+  color: var(--g);
+  border-color: var(--g);
+  background: var(--g-glow);
+}
+
 /* ─── Ticker ─────────────────────────────────────────────────────────────── */
 
 .ticker-wrap {
