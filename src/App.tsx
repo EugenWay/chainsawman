@@ -431,6 +431,7 @@ function Terminal() {
   const bodyRef               = useRef<HTMLDivElement>(null)
   const inputRef              = useRef<HTMLInputElement>(null)
   const userScrolled          = useRef(false)
+  const interacted            = useRef(false)
   const history               = useRef<{ role: 'user' | 'assistant'; content: string }[]>([])
 
   // Boot animation
@@ -453,6 +454,20 @@ function Terminal() {
   // Focus input when boot finishes
   useEffect(() => {
     if (done) setTimeout(() => inputRef.current?.focus(), 50)
+  }, [done])
+
+  // One-time nudge if the visitor goes quiet after boot
+  useEffect(() => {
+    if (!done) return
+    const t = setTimeout(() => {
+      if (interacted.current) return
+      setLines(prev => [...prev,
+        { type: 'blank', text: '' },
+        { type: 'out', text: '  still there? ask me why they call me chainsaw man.' },
+      ])
+      userScrolled.current = false
+    }, 30_000)
+    return () => clearTimeout(t)
   }, [done])
 
   // Track manual scroll
@@ -589,6 +604,7 @@ function Terminal() {
 
   const runSuggestion = (q: string) => {
     if (busy) return
+    interacted.current = true
     setAsked(true)
     setLines(prev => [...prev, { type: 'cmd', text: q, pause: 0 }])
     askAI(q)
@@ -617,7 +633,7 @@ function Terminal() {
               ref={inputRef}
               className="term-input"
               value={input}
-              onChange={e => setInput(e.target.value)}
+              onChange={e => { interacted.current = true; setInput(e.target.value) }}
               onKeyDown={handleKey}
               disabled={busy}
               spellCheck={false}
