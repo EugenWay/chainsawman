@@ -1,4 +1,7 @@
 import 'dotenv/config'
+import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
 import express from 'express'
 import rateLimit from 'express-rate-limit'
 import OpenAI from 'openai'
@@ -11,6 +14,8 @@ const MAX_MESSAGE_CHARS  = 800
 const MAX_HISTORY        = 6
 const MAX_OUTPUT_TOKENS  = 250
 const GLOBAL_DAILY_LIMIT = Number(process.env.GLOBAL_DAILY_LIMIT || 1500)
+// lives outside the deploy dir — rsync --delete must not wipe it
+const STATS_FILE         = process.env.STATS_FILE || path.join(os.homedir(), '.chainsawman-stats.json')
 
 const ALLOWED_ORIGINS = new Set([
   'https://chainsawman.dev',
@@ -56,6 +61,15 @@ app.use((req, res, next) => {
   next()
 })
 
+// ─── All-time stats ──────────────────────────────────────────────────────────
+let totalAnswered = 0
+try {
+  totalAnswered = Number(JSON.parse(fs.readFileSync(STATS_FILE, 'utf8')).total) || 0
+} catch {}
+function persistStats() {
+  fs.writeFile(STATS_FILE, JSON.stringify({ total: totalAnswered }), () => {})
+}
+
 // ─── Global daily budget guard (hard spend ceiling) ──────────────────────────
 let currentDay = ''
 let dayCount   = 0
@@ -82,6 +96,8 @@ const perDay = rateLimit({
 
 // ─── Routes ──────────────────────────────────────────────────────────────────
 app.get('/api/health', (_req, res) => res.json({ ok: true, model: MODEL }))
+
+app.get('/api/stats', (_req, res) => res.json({ total: totalAnswered, today: dayCount }))
 
 app.post('/api/chat',
   (req, res, next) => {
@@ -121,6 +137,8 @@ app.post('/api/chat',
       })
 
       dayCount++
+      totalAnswered++
+      persistStats()
       const reply = completion.choices?.[0]?.message?.content?.trim() || '...'
       const u = completion.usage
       console.log(`[chat] ip=${req.ip} in=${u?.prompt_tokens ?? '?'} out=${u?.completion_tokens ?? '?'} day=${dayCount}/${GLOBAL_DAILY_LIMIT}`)

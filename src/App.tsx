@@ -549,7 +549,7 @@ function Terminal() {
     if (cmd === 'help') {
       print([
         { type: 'out', text: '  just talk to me — ask about my work, projects, web3, whatever.', pause: 0 },
-        { type: 'out', text: '  commands: help · clear · neofetch · crt on|off', pause: 0 },
+        { type: 'out', text: '  commands: help · clear · neofetch · stats · crt on|off', pause: 0 },
       ])
       return
     }
@@ -588,6 +588,24 @@ function Terminal() {
 
     if (cmd === ':q' || cmd === ':q!' || cmd === ':wq' || cmd === 'exit') {
       print([{ type: 'out', text: '  you\'re not in vim. you never were.', pause: 0 }])
+      return
+    }
+
+    if (cmd === 'stats') {
+      ;(async () => {
+        try {
+          const res = await fetch('/api/stats')
+          const d = await res.json()
+          print([
+            { type: 'ok',  text: 'ghost stats', pause: 0 },
+            { type: 'out', text: `  questions answered : ${d.total} all-time · ${d.today} today`, pause: 0 },
+            { type: 'out', text: '  hallucinations     : [redacted]', pause: 0 },
+            { type: 'out', text: '  uptime             : the human since 2017 · the ghost since 2026', pause: 0 },
+          ])
+        } catch {
+          print([{ type: 'out', text: '  stats offline. the ghost keeps its secrets today.', pause: 0 }])
+        }
+      })()
       return
     }
 
