@@ -339,7 +339,7 @@ body {
   position: relative;
 }
 
-.tl { margin-bottom: 2px; }
+.tl { margin-bottom: 2px; white-space: pre-wrap; }
 .tl-cmd   { color: #e2e2e2; }
 .tl-out   { color: var(--term-text); padding-left: 0.5rem; }
 .tl-ok    { color: var(--g); }
@@ -412,6 +412,31 @@ body {
   color: var(--g);
   border-color: var(--g);
   background: var(--g-glow);
+}
+
+/* ─── CRT mode ───────────────────────────────────────────────────────────── */
+
+html.crt body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 300;
+  background:
+    repeating-linear-gradient(0deg,
+      rgba(0, 0, 0, 0.16) 0px,
+      rgba(0, 0, 0, 0.16) 1px,
+      transparent 1px,
+      transparent 3px),
+    radial-gradient(ellipse at center,
+      transparent 60%,
+      rgba(0, 0, 0, 0.35) 100%);
+}
+
+html.crt .term-body,
+html.crt .tl-prompt,
+html.crt .tl-ok {
+  text-shadow: 0 0 4px var(--g-glow), 0 0 1px currentColor;
 }
 
 /* ─── Ticker ─────────────────────────────────────────────────────────────── */

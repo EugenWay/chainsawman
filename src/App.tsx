@@ -526,13 +526,60 @@ function Terminal() {
 
     setLines(prev => [...prev, cmdLine])
 
-    if (cmd === 'help') {
-      setLines(prev => [...prev,
-        { type: 'out', text: '  just talk to me — ask about my work, projects, web3, whatever.', pause: 0 },
-        { type: 'out', text: '  commands: help · clear', pause: 0 },
-        { type: 'blank', text: '', pause: 0 },
-      ])
+    const print = (out: TLine[]) => {
+      setLines(prev => [...prev, ...out, { type: 'blank', text: '', pause: 0 }])
       userScrolled.current = false
+    }
+
+    if (cmd === 'help') {
+      print([
+        { type: 'out', text: '  just talk to me — ask about my work, projects, web3, whatever.', pause: 0 },
+        { type: 'out', text: '  commands: help · clear · neofetch · crt on|off', pause: 0 },
+      ])
+      return
+    }
+
+    if (cmd === 'neofetch') {
+      print([
+        { type: 'ok',  text: 'eugene@way', pause: 0 },
+        { type: 'out', text: '  ──────────', pause: 0 },
+        { type: 'out', text: '  os       : web3/linux (madrid remix)', pause: 0 },
+        { type: 'out', text: '  host     : gear technologies inc.', pause: 0 },
+        { type: 'out', text: '  kernel   : rust · sails · typescript', pause: 0 },
+        { type: 'out', text: '  uptime   : web3 since 2017 · gear since 2021', pause: 0 },
+        { type: 'out', text: '  shell    : bash (this one, actually)', pause: 0 },
+        { type: 'out', text: '  packages : perps · clob · bridges · whitepapers', pause: 0 },
+        { type: 'out', text: '  theme    : chainsaw [dark]', pause: 0 },
+        { type: 'out', text: '  cpu      : caffeine @ 4.20GHz', pause: 0 },
+        { type: 'out', text: '  memory   : 600+ commits and counting', pause: 0 },
+      ])
+      return
+    }
+
+    if (cmd === 'sudo hire eugene' || cmd === 'sudo hire') {
+      print([
+        { type: 'out', text: '  [sudo] password for visitor: ********', pause: 0 },
+        { type: 'ok',  text: 'access granted.', pause: 0 },
+        { type: 'out', text: '  hire sequence initiated → relax211@gmail.com', pause: 0 },
+        { type: 'out', text: '  he\'s expecting you 😎', pause: 0 },
+      ])
+      return
+    }
+
+    if (cmd === 'vim' || cmd === 'vi' || cmd === 'nvim') {
+      print([{ type: 'out', text: '  no escape.', pause: 0 }])
+      return
+    }
+
+    if (cmd === ':q' || cmd === ':q!' || cmd === ':wq' || cmd === 'exit') {
+      print([{ type: 'out', text: '  you\'re not in vim. you never were.', pause: 0 }])
+      return
+    }
+
+    if (cmd === 'crt on' || cmd === 'crt off') {
+      const on = cmd.endsWith('on')
+      document.documentElement.classList.toggle('crt', on)
+      print([{ type: 'ok', text: on ? 'crt mode on. welcome to 1987.' : 'crt mode off. back to the future.', pause: 0 }])
       return
     }
 
