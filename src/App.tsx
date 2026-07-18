@@ -225,6 +225,21 @@ const MATERIAL_GROUPS = [
   },
 ]
 
+// ─── Gallery data ─────────────────────────────────────────────────────────────
+
+interface GalleryItem {
+  src: string
+  event: string
+  year: string
+  place: string
+  note?: string
+}
+
+// drop photos into public/gallery/ and list them here:
+// { src: '/gallery/ethcc-2023.jpg', event: 'EthCC', year: '2023', place: 'Paris', note: 'talking Vara' },
+const GALLERY: GalleryItem[] = [
+]
+
 // ─── Particle title ───────────────────────────────────────────────────────────
 
 const PT_ASCII = '0123456789ABCDEF'
@@ -684,7 +699,7 @@ function Terminal() {
 function Header() {
   const [dark, setDark] = useState(true)
   const [open, setOpen] = useState(false)
-  const NAV = ['about', 'experience', 'materials']
+  const NAV = ['about', 'experience', ...(GALLERY.length > 0 ? ['events'] : []), 'materials']
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
@@ -837,6 +852,129 @@ function Experience() {
   )
 }
 
+// ─── Gallery ──────────────────────────────────────────────────────────────────
+
+function Gallery() {
+  const [open, setOpen] = useState<number | null>(null)
+  const stripRef  = useRef<HTMLDivElement>(null)
+  const paused    = useRef(false)
+  const dragging  = useRef(false)
+  const drag      = useRef({ startX: 0, startLeft: 0, moved: false })
+
+  // Auto-drift: the strip slowly rolls; content is doubled, so wrap at half for a seamless loop
+  useEffect(() => {
+    const el = stripRef.current
+    if (!el) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let raf: number
+    const tick = () => {
+      if (!paused.current && !dragging.current) {
+        el.scrollLeft += 0.5
+        const half = el.scrollWidth / 2
+        if (half > 0 && el.scrollLeft >= half) el.scrollLeft -= half
+      }
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  // Lightbox keyboard — single listener for the component's lifetime
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      setOpen(o => {
+        if (o === null) return o
+        if (e.key === 'Escape')     return null
+        if (e.key === 'ArrowRight') return (o + 1) % GALLERY.length
+        if (e.key === 'ArrowLeft')  return (o - 1 + GALLERY.length) % GALLERY.length
+        return o
+      })
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  // Lock page scroll while the lightbox is open
+  useEffect(() => {
+    document.body.style.overflow = open === null ? '' : 'hidden'
+    return () => { document.body.style.overflow = '' }
+  }, [open])
+
+  // Mouse drag to scroll; touch scrolls natively
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (e.pointerType !== 'mouse' || !stripRef.current) return
+    dragging.current = true
+    drag.current = { startX: e.clientX, startLeft: stripRef.current.scrollLeft, moved: false }
+  }
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!dragging.current || e.pointerType !== 'mouse' || !stripRef.current) return
+    const dx = e.clientX - drag.current.startX
+    if (Math.abs(dx) > 4) drag.current.moved = true
+    stripRef.current.scrollLeft = drag.current.startLeft - dx
+  }
+  const endDrag = () => { dragging.current = false }
+
+  const items = [...GALLERY, ...GALLERY]
+  const item  = open === null ? null : GALLERY[open]
+
+  return (
+    <section className="section" id="events">
+      <div className="sec-head">
+        <span className="sec-label">// EVENTS</span>
+        <span className="dim">field evidence — talks, conferences, hackathons</span>
+      </div>
+      <div className="gal-strip-wrap">
+        <div
+          ref={stripRef}
+          className="gal-strip"
+          onMouseEnter={() => { paused.current = true }}
+          onMouseLeave={() => { paused.current = false; endDrag() }}
+          onTouchStart={() => { paused.current = true }}
+          onTouchEnd={() => { setTimeout(() => { paused.current = false }, 2500) }}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+        >
+          {items.map((p, i) => (
+            <figure key={i} className="gal-cell"
+              onClick={() => { if (!drag.current.moved) setOpen(i % GALLERY.length) }}>
+              <img src={p.src} alt={`${p.event} ${p.year} — ${p.place}`} loading="lazy" draggable={false} />
+              <figcaption className="gal-cell-cap">
+                <span className="gal-tag">[{p.event.toLowerCase()} {p.year}]</span> {p.place}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+
+      {item && (
+        <div className="gal-lb" onClick={() => setOpen(null)}>
+          <button className="gal-lb-close" onClick={() => setOpen(null)} aria-label="close">✕</button>
+          {GALLERY.length > 1 && (
+            <button className="gal-lb-nav gal-lb-prev" aria-label="previous"
+              onClick={e => { e.stopPropagation(); setOpen(o => o === null ? o : (o - 1 + GALLERY.length) % GALLERY.length) }}>
+              ‹
+            </button>
+          )}
+          <img src={item.src} alt={`${item.event} ${item.year} — ${item.place}`} onClick={e => e.stopPropagation()} />
+          {GALLERY.length > 1 && (
+            <button className="gal-lb-nav gal-lb-next" aria-label="next"
+              onClick={e => { e.stopPropagation(); setOpen(o => o === null ? o : (o + 1) % GALLERY.length) }}>
+              ›
+            </button>
+          )}
+          <div className="gal-lb-cap" onClick={e => e.stopPropagation()}>
+            <span className="gal-tag">[{item.event.toLowerCase()} {item.year}]</span> {item.place}
+            {item.note ? <span className="dim"> — {item.note}</span> : null}
+            <span className="dim gal-lb-count"> · {(open as number) + 1}/{GALLERY.length}</span>
+          </div>
+        </div>
+      )}
+    </section>
+  )
+}
+
 // ─── Materials ────────────────────────────────────────────────────────────────
 
 function Materials() {
@@ -911,6 +1049,7 @@ export default function App() {
       <main className="container">
         <About />
         <Experience />
+        {GALLERY.length > 0 && <Gallery />}
         <Materials />
       </main>
       <footer className="footer">
