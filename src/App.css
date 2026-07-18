@@ -414,6 +414,27 @@ body {
   background: var(--g-glow);
 }
 
+/* ─── 404 ────────────────────────────────────────────────────────────────── */
+
+.nf-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.nf-term { max-width: 640px; }
+
+.nf-body { height: auto; }
+
+.nf-home {
+  color: var(--g);
+  text-decoration: none;
+}
+
+.nf-home:hover { text-decoration: underline; }
+
 /* ─── CRT mode ───────────────────────────────────────────────────────────── */
 
 html.crt body::after {

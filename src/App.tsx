@@ -866,9 +866,43 @@ function Materials() {
   )
 }
 
+// ─── 404 ──────────────────────────────────────────────────────────────────────
+
+function NotFound({ path }: { path: string }) {
+  useEffect(() => { document.title = '404 // no such file' }, [])
+  return (
+    <div className="app">
+      <div className="noise" />
+      <div className="nf-wrap">
+        <div className="term-wrap nf-term">
+          <div className="term-bar">
+            <div className="term-dots"><span /><span /><span /></div>
+            <span className="term-title">bash — eugene@way:~</span>
+            <span className="term-status"><span className="pulse-dot" /> ONLINE</span>
+          </div>
+          <div className="term-body nf-body">
+            <div className="tl tl-cmd"><span className="tl-prompt">eugene@way:~$ </span>cat {path}</div>
+            <div className="tl tl-out">  cat: {path}: No such file or directory</div>
+            <div className="tl tl-blank" />
+            <div className="tl tl-out">  error 404 — this path never shipped.</div>
+            <div className="tl tl-blank" />
+            <div className="tl tl-cmd">
+              <span className="tl-prompt">eugene@way:~$ </span>
+              <a className="nf-home" href="/">cd ~</a>
+              <span className="block-cursor"> █</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── App ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
+  const path = window.location.pathname
+  if (path !== '/' && path !== '/index.html') return <NotFound path={path} />
   return (
     <div className="app">
       <div className="noise" />
