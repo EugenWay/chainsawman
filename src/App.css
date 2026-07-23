@@ -383,12 +383,61 @@ body {
 [data-theme="light"] .block-cursor { color: var(--text); }
 .tl-ok > .tl-ok { color: var(--g); }
 
+.term-link {
+  color: var(--purple);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--purple) 45%, transparent);
+  text-underline-offset: 2px;
+}
+
+.term-link:hover {
+  color: var(--g);
+  text-decoration-color: var(--g);
+}
+
+.term-hint {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.term-onboard {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.term-origin {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.55rem;
+  color: var(--term-text);
+  font-size: 0.68rem;
+}
+
+.term-origin-key {
+  color: var(--purple);
+  font-weight: 600;
+}
+
+.term-origin-note {
+  margin-top: 0.2rem;
+  color: var(--dim);
+  font-size: 0.64rem;
+}
+
 .term-suggest {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 1rem;
+  margin-top: 0.75rem;
+}
+
+.term-suggest-followup {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
 }
 
 .term-suggest-label {

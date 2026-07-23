@@ -5,17 +5,26 @@ import path from 'node:path'
 import express from 'express'
 import rateLimit from 'express-rate-limit'
 import OpenAI from 'openai'
-import { SYSTEM_PROMPT } from './persona.js'
+import { MODE_PROMPTS, SYSTEM_PROMPT } from './persona.js'
 
 // ─── Config ─────────────────────────────────────────────────────────────────
 const PORT               = Number(process.env.PORT || 8787)
-const MODEL              = process.env.OPENAI_MODEL || 'gpt-4o-mini'
+const MODEL              = process.env.OPENAI_MODEL || 'gpt-4.1-mini'
 const MAX_MESSAGE_CHARS  = 800
 const MAX_HISTORY        = 6
-const MAX_OUTPUT_TOKENS  = 250
 const GLOBAL_DAILY_LIMIT = Number(process.env.GLOBAL_DAILY_LIMIT || 1500)
 // lives outside the deploy dir — rsync --delete must not wipe it
 const STATS_FILE         = process.env.STATS_FILE || path.join(os.homedir(), '.chainsawman-stats.json')
+
+const MODE_CONFIG = Object.freeze({
+  default:   { maxTokens: 300, temperature: 0.65 },
+  review:    { maxTokens: 420, temperature: 0.45 },
+  thinking:  { maxTokens: 320, temperature: 0.55 },
+  proof:     { maxTokens: 240, temperature: 0.45 },
+  story:     { maxTokens: 360, temperature: 0.75 },
+  deeper:    { maxTokens: 360, temperature: 0.55 },
+  challenge: { maxTokens: 320, temperature: 0.50 },
+})
 
 const ALLOWED_ORIGINS = new Set([
   'https://chainsawman.dev',
@@ -45,6 +54,16 @@ function upstreamErrorInfo(err) {
   if (status && status >= 500) return { status, kind: 'provider' }
   if (err?.code) return { status, kind: String(err.code).slice(0, 64) }
   return { status, kind: err?.name || 'request_failed' }
+}
+
+function trimGenericCloser(text) {
+  const patterns = [
+    /\s+(?:if you want,? i can|if you'd like,? i can|would you like me to|want me to|what are you curious about)[\s\S]*$/i,
+    /\s+(?:si quieres,? puedo|¿quieres que te|¿te gustaría que|¿tienes algún)[\s\S]*$/i,
+    /\s+(?:если хочешь,? могу|хочешь,? расскажу|хочешь,? покажу|а что интересно тебе)[\s\S]*$/i,
+  ]
+
+  return patterns.reduce((reply, pattern) => reply.replace(pattern, '').trim(), text.trim())
 }
 
 // CORS allowlist — only our own origins may call the API from a browser
@@ -117,6 +136,12 @@ app.post('/api/chat',
         return res.status(400).json({ error: 'too_long', reply: 'whoa, tldr. keep it under 800 chars.' })
       }
 
+      const requestedMode = typeof body.mode === 'string' ? body.mode : 'default'
+      const mode = Object.prototype.hasOwnProperty.call(MODE_PROMPTS, requestedMode)
+        ? requestedMode
+        : 'default'
+      const modeConfig = MODE_CONFIG[mode] || MODE_CONFIG.default
+
       // Trust nothing from the client: filter + cap history
       const history = (Array.isArray(body.history) ? body.history : [])
         .filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
@@ -124,7 +149,7 @@ app.post('/api/chat',
         .map(m => ({ role: m.role, content: m.content.slice(0, MAX_MESSAGE_CHARS) }))
 
       const messages = [
-        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'system', content: `${SYSTEM_PROMPT}\n\n${MODE_PROMPTS[mode]}` },
         ...history,
         { role: 'user', content: message },
       ]
@@ -132,17 +157,18 @@ app.post('/api/chat',
       const completion = await openai.chat.completions.create({
         model: MODEL,
         messages,
-        max_tokens: MAX_OUTPUT_TOKENS,
-        temperature: 0.8,
+        max_tokens: modeConfig.maxTokens,
+        temperature: modeConfig.temperature,
       })
 
       dayCount++
       totalAnswered++
       persistStats()
-      const reply = completion.choices?.[0]?.message?.content?.trim() || '...'
+      const rawReply = completion.choices?.[0]?.message?.content?.trim() || '...'
+      const reply = trimGenericCloser(rawReply)
       const u = completion.usage
-      console.log(`[chat] ip=${req.ip} in=${u?.prompt_tokens ?? '?'} out=${u?.completion_tokens ?? '?'} day=${dayCount}/${GLOBAL_DAILY_LIMIT}`)
-      res.json({ reply })
+      console.log(`[chat] ip=${req.ip} mode=${mode} in=${u?.prompt_tokens ?? '?'} out=${u?.completion_tokens ?? '?'} day=${dayCount}/${GLOBAL_DAILY_LIMIT}`)
+      res.json({ reply, mode })
     } catch (err) {
       const upstream = upstreamErrorInfo(err)
       console.error('[chat] error:', `status=${upstream.status ?? '?'}`, `kind=${upstream.kind}`)

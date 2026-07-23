@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, type ReactNode } from 'react'
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 
@@ -44,6 +44,14 @@ interface TLine {
   pause?: number
 }
 
+type ChatMode = 'default' | 'review' | 'thinking' | 'proof' | 'story' | 'deeper' | 'challenge'
+
+interface ChatSuggestion {
+  label: string
+  prompt: string
+  mode: ChatMode
+}
+
 // ─── Terminal boot sequence ───────────────────────────────────────────────────
 
 const BOOT: TLine[] = [
@@ -75,10 +83,76 @@ const BOOT: TLine[] = [
   { type: 'cmd',   text: 'cat status.txt', pause: 200 },
   { type: 'ok',    text: 'open to collab on DeFi, cross-chain & on-chain derivatives', pause: 400 },
   { type: 'blank', text: '', pause: 150 },
-  { type: 'ok',    text: 'ghost online. ask me about the builds 😎', pause: 0 },
+  { type: 'ok',    text: "ghost online. bring me a system — i'll tell you what breaks first.", pause: 0 },
 ]
 
-const SUGGESTIONS = ['why hire eugene', 'show me proof', 'war stories', 'hot takes']
+const START_SUGGESTIONS: ChatSuggestion[] = [
+  {
+    label: 'stress-test my idea',
+    prompt: 'I want to stress-test an idea. Start by asking me no more than three questions that would expose the important assumptions.',
+    mode: 'review',
+  },
+  {
+    label: 'what breaks first?',
+    prompt: 'Show me how Eugene thinks. Pick one real system he built and explain the first invariant or failure mode he cared about.',
+    mode: 'thinking',
+  },
+  {
+    label: 'show one real build',
+    prompt: 'Show me one real build that best reveals how Eugene works. Give me one link and tell me exactly what to inspect.',
+    mode: 'proof',
+  },
+  {
+    label: 'one true story',
+    prompt: 'Tell me one verified story that reveals how Eugene thinks. Do not invent missing details.',
+    mode: 'story',
+  },
+]
+
+const FOLLOW_UP_SUGGESTIONS: ChatSuggestion[] = [
+  {
+    label: 'go deeper',
+    prompt: 'Go one level deeper on your previous answer. Be concrete and name the important tradeoff.',
+    mode: 'deeper',
+  },
+  {
+    label: 'show the proof',
+    prompt: 'Show the single most relevant proof for your previous answer and tell me what I should inspect.',
+    mode: 'proof',
+  },
+  {
+    label: 'challenge that',
+    prompt: 'Challenge your previous answer. Which assumption could be wrong, and what would you test first?',
+    mode: 'challenge',
+  },
+]
+
+function renderTerminalText(text: string) {
+  const linkPattern = /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)|(https?:\/\/[^\s<]+)/g
+  const parts: ReactNode[] = []
+  let cursor = 0
+  let match: RegExpExecArray | null
+
+  while ((match = linkPattern.exec(text)) !== null) {
+    if (match.index > cursor) parts.push(text.slice(cursor, match.index))
+
+    const markdownLabel = match[1]
+    const matchedUrl = match[2] || match[3]
+    const url = matchedUrl.replace(/[),.;!?]+$/, '')
+    const suffix = matchedUrl.slice(url.length)
+
+    parts.push(
+      <a key={`${match.index}-${url}`} className="term-link" href={url} target="_blank" rel="noreferrer">
+        {markdownLabel || url}
+      </a>
+    )
+    if (suffix) parts.push(suffix)
+    cursor = match.index + match[0].length
+  }
+
+  if (cursor < text.length) parts.push(text.slice(cursor))
+  return parts
+}
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -490,7 +564,7 @@ function Terminal() {
       if (interacted.current) return
       setLines(prev => [...prev,
         { type: 'blank', text: '' },
-        { type: 'out', text: '  still there? ask me why they call me chainsaw man.' },
+        { type: 'out', text: "  still there? bring me a system — i'll tell you what breaks first." },
       ])
       userScrolled.current = false
     }, 30_000)
@@ -516,17 +590,17 @@ function Terminal() {
     setLines(prev => [...prev, { type: 'out', text: '' }])
     let i = 0
     const iv = setInterval(() => {
-      i += 2
+      i += 3
       setLines(prev => {
         const copy = [...prev]
         copy[copy.length - 1] = { type: 'out', text: '  ' + text.slice(0, i) }
         return copy
       })
       if (i >= text.length) { clearInterval(iv); resolve() }
-    }, 12)
+    }, 8)
   })
 
-  const askAI = async (question: string) => {
+  const askAI = async (question: string, mode: ChatMode = 'default') => {
     setBusy(true)
     setLines(prev => [...prev, { type: 'out', text: '  ...' }])
     userScrolled.current = false
@@ -535,7 +609,7 @@ function Terminal() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'content-type': 'application/json', 'x-cw-chat': '1' },
-        body: JSON.stringify({ message: question, history: history.current }),
+        body: JSON.stringify({ message: question, history: history.current, mode }),
       })
       const data = await res.json().catch(() => ({} as { reply?: string }))
       reply = data.reply || (res.status === 429
@@ -564,7 +638,12 @@ function Terminal() {
     const cmd = raw.toLowerCase()
     const cmdLine: TLine = { type: 'cmd', text: raw, pause: 0 }
 
-    if (cmd === 'clear') { setLines([]); return }
+    if (cmd === 'clear') {
+      setLines([])
+      setAsked(false)
+      history.current = []
+      return
+    }
 
     setLines(prev => [...prev, cmdLine])
 
@@ -644,15 +723,15 @@ function Terminal() {
     }
 
     setAsked(true)
-    askAI(raw)
+    askAI(raw, 'default')
   }
 
-  const runSuggestion = (q: string) => {
+  const runSuggestion = (suggestion: ChatSuggestion) => {
     if (busy) return
     interacted.current = true
     setAsked(true)
-    setLines(prev => [...prev, { type: 'cmd', text: q, pause: 0 }])
-    askAI(q)
+    setLines(prev => [...prev, { type: 'cmd', text: suggestion.label, pause: 0 }])
+    askAI(suggestion.prompt, suggestion.mode)
   }
 
   return (
@@ -668,7 +747,7 @@ function Terminal() {
           <div key={i} className={`tl tl-${l.type}`}>
             {l.type === 'cmd' && <span className="tl-prompt">eugene@way:~$ </span>}
             {l.type === 'ok'  && <span className="tl-ok">✓ </span>}
-            {l.text}
+            {renderTerminalText(l.text)}
           </div>
         ))}
         {done && (
@@ -681,22 +760,42 @@ function Terminal() {
               onChange={e => { interacted.current = true; setInput(e.target.value) }}
               onKeyDown={handleKey}
               disabled={busy}
+              maxLength={800}
+              aria-label="Ask Eugene's terminal ghost"
               spellCheck={false}
               autoComplete="off"
               autoCorrect="off"
               style={{ width: input.length > 0 ? `${input.length}ch` : '0px' }}
             />
             <span className="block-cursor">█</span>
-            {input === '' && <span className="term-hint">{busy ? 'thinking…' : 'ask me anything...'}</span>}
+            {input === '' && <span className="term-hint">{busy ? 'thinking…' : 'describe a system, idea, or technical mess...'}</span>}
           </div>
         )}
         {done && !asked && !busy && (
-          <div className="term-suggest">
-            <span className="term-suggest-label">try:</span>
-            {SUGGESTIONS.map(s => (
-              <button key={s} className="term-chip"
+          <div className="term-onboard">
+            <div className="term-origin">
+              <span className="term-origin-key">a CV that talks back.</span>
+            </div>
+            <div className="term-origin-note">
+              built from Eugene's work and real conversations — bring it a system or a bad idea and see how he thinks.
+            </div>
+            <div className="term-suggest">
+              {START_SUGGESTIONS.map(s => (
+                <button key={s.label} className="term-chip"
+                  onClick={e => { e.stopPropagation(); runSuggestion(s) }}>
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        {done && asked && !busy && (
+          <div className="term-suggest term-suggest-followup">
+            <span className="term-suggest-label">next:</span>
+            {FOLLOW_UP_SUGGESTIONS.map(s => (
+              <button key={s.label} className="term-chip"
                 onClick={e => { e.stopPropagation(); runSuggestion(s) }}>
-                {s}
+                {s.label}
               </button>
             ))}
           </div>
@@ -733,7 +832,7 @@ function Header() {
       <div className="wrap">
         <span className="header-brand">
           <span className="g">EW</span>
-          <span className="dim"> [v1.2]</span>
+          <span className="dim"> [v1.3]</span>
         </span>
 
         {/* desktop nav */}

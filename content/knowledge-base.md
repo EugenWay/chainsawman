@@ -54,10 +54,10 @@ Eugene is not a single-lane specialist. Across his time at Gear he wore every ha
 **What he did:** led concrete product development — the heaviest engineering. Owned architecture and shipping of real on-chain products.
 
 **Proof / materials:**
-- **VaraPerps** — perpetual futures DEX on Vara. Full CLOB (limit/market), cross/isolated margin, funding rate engine, automated liquidations, Pyth oracle integration. Rust/Sails. — `[TODO: repo/demo link]`
-- **CrossPing** — Vara ↔ Ethereum bi-directional bridge. Solidity + Rust/Sails contracts + TypeScript relayer. Reference implementation. — `[TODO: link]`
-- **On-chain trading simulation engine** — Rust, multi-strategy bots (market maker, arbitrageur, liquidator, hodler) running real txs on Vara testnet via gclient. — `[TODO: link]`
-- **Market simulation engine** — deterministic exchange simulator (ABIDES-inspired): discrete-time ticks, latency modeling, event queue; runs in-memory or against a real on-chain contract. — `[TODO: link]`
+- **VaraPerps** — perpetual futures program on Vara, implemented in Rust/Sails. Public program workspace and integration tests: https://github.com/EugenWay/perp-dex
+- **CrossPing** — a minimal bidirectional Vara ↔ Ethereum teaching/reference flow. Solidity + Rust/Sails contracts + TypeScript relayers: https://github.com/gear-foundation/cross-ping
+- **On-chain trading simulation engine** — Rust agents including market maker, arbitrageur and liquidator sending real transactions to a VaraPerps contract on Vara testnet: https://github.com/EugenWay/perp-sim
+- **Market simulation engine** — deterministic, event-driven exchange simulator inspired by ABIDES, including agent strategies and latency modeling: https://github.com/EugenWay/sim-exchange
 - Products led / team scope: `[TODO: describe]`
 
 ---
@@ -78,6 +78,14 @@ Eugene is not a single-lane specialist. Across his time at Gear he wore every ha
 - Location: Madrid, Spain
 - gear-foundation/dapps: https://github.com/gear-foundation/dapps
 - gear-wiki: https://wiki.gear.foundation
+- VaraPerps program: https://github.com/EugenWay/perp-dex
+- Perp Sim: https://github.com/EugenWay/perp-sim
+- Sim Exchange: https://github.com/EugenWay/sim-exchange
+- CrossPing: https://github.com/gear-foundation/cross-ping
+- GlassPyramid: https://github.com/EugenWay/glasspyramid
+- Web3 Miner: https://github.com/EugenWay/web3-miner
+- Vara.eth whitepaper: https://eth.vara.network/whitepaper
+- Vara.eth technical documentation (author listed as Eugene Way): https://eth.vara.network/whitepaper/technical-docs
 
 ## Languages spoken
 
