@@ -54,6 +54,7 @@ const BOOT: TLine[] = [
   { type: 'out',   text: '  org         : Gear Technologies Inc.', pause: 100 },
   { type: 'out',   text: '  gear_since  : 2021', pause: 100 },
   { type: 'out',   text: '  location    : Madrid, Spain 🇪🇸', pause: 100 },
+  { type: 'out',   text: '  speaks      : Русский · Español · English', pause: 100 },
   { type: 'out',   text: '  github      : github.com/EugenWay', pause: 100 },
   { type: 'out',   text: '  email       : relax211@gmail.com', pause: 100 },
   { type: 'out',   text: '  linkedin    : linkedin.com/in/eugene-way-5b81b4188', pause: 120 },
@@ -238,6 +239,17 @@ interface GalleryItem {
 // drop photos into public/gallery/ and list them here:
 // { src: '/gallery/ethcc-2023.jpg', event: 'EthCC', year: '2023', place: 'Paris', note: 'talking Vara' },
 const GALLERY: GalleryItem[] = [
+  { src: '/gallery/event-01-vara-booth.webp', event: 'ETHGlobal', year: '2024', place: 'Brussels' },
+  { src: '/gallery/event-02-stage-current-limitations.webp', event: 'Conference', year: '2024', place: 'Budapest' },
+  { src: '/gallery/game-changer-brussels-2024-oracle-talk.webp', event: 'Conference', year: '2024', place: 'Budapest', note: 'oracle solutions' },
+  { src: '/gallery/event-04-community.webp', event: 'ETHGlobal', year: '2024', place: 'Brussels', note: 'judges' },
+  { src: '/gallery/event-05-hackathon-floor.webp', event: 'ETHGlobal', year: '2024', place: 'Brussels' },
+  { src: '/gallery/ethglobal-brussels-2024-vara-demo.webp', event: 'ETHGlobal', year: '2024', place: 'Brussels' },
+  { src: '/gallery/event-07-meme-token-demo.webp', event: 'Event', year: '2024', place: 'Brussels' },
+  { src: '/gallery/event-08-live-coding.webp', event: 'Workshop', year: '2024', place: 'Brussels', note: 'live coding' },
+  { src: '/gallery/event-09-madrid-polkadot-conference.webp', event: 'Polkadot Conference', year: '2024', place: 'Madrid' },
+  { src: '/gallery/event-10-gear-protocol.webp', event: 'Polkadot Conference', year: '2024', place: 'Madrid' },
+  { src: '/gallery/event-11-rust-code-walkthrough.webp', event: 'Workshop', year: '2024', place: 'Brussels' },
 ]
 
 // ─── Particle title ───────────────────────────────────────────────────────────
@@ -721,7 +733,7 @@ function Header() {
       <div className="wrap">
         <span className="header-brand">
           <span className="g">EW</span>
-          <span className="dim"> [v1.1]</span>
+          <span className="dim"> [v1.2]</span>
         </span>
 
         {/* desktop nav */}
