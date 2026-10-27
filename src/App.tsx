@@ -262,6 +262,16 @@ const MATERIAL_GROUPS = [
     description: 'thinking / technical narratives',
     items: [
       {
+        title: 'What Could You Build on Vara.eth? Five Ideas Worth Stealing',
+        type: 'medium',
+        url: 'https://medium.com/@VaraNetwork/what-could-you-build-on-vara-eth-five-ideas-worth-stealing-d90713987923',
+      },
+      {
+        title: 'How Robo Miner Runs in Real Time on Vara.eth',
+        type: 'medium',
+        url: 'https://medium.com/@VaraNetwork/how-robo-miner-runs-in-real-time-on-vara-eth-61ebefc961b0',
+      },
+      {
         title: 'Real DeFi: Build HyperLiquid on Ethereum with Vara.eth',
         type: 'medium',
         url: 'https://medium.com/@VaraNetwork/real-defi-build-hyperliquid-on-ethereum-with-vara-eth-1617b84fd7a5',
@@ -308,6 +318,11 @@ const MATERIAL_GROUPS = [
     label: 'demos',
     description: 'code / videos / reference apps',
     items: [
+      {
+        title: 'Robo Miner (Digger) on Vara.eth demo',
+        type: 'x',
+        url: 'https://x.com/VaraNetwork/status/2080242009231540566',
+      },
       {
         title: 'Gear.exe performance benchmark demo',
         type: 'youtube',

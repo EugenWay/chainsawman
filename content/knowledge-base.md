@@ -68,8 +68,10 @@ Eugene describes technical leadership as understanding the architecture, full pi
 - Authored **Gear.exe technical whitepaper** (execution model, finality, gas-reverse, program lifecycle) — `[TODO: link]`
 - Authored **"How Perpetual Futures Work on Vara.eth"** — DeFi mechanics guide — `[TODO: link]`
 - `vara-options` — Vara Network economic-parameters API (supply, circulation, burns), Node.js + polkadot.js — `[TODO: link]`
-- Medium / blog articles: `[TODO: links]`
-- Videos / recorded explainers: `[TODO: links]`
+- Authored **"How Robo Miner Runs in Real Time on Vara.eth"** (September 3, 2026) — https://medium.com/@VaraNetwork/how-robo-miner-runs-in-real-time-on-vara-eth-61ebefc961b0
+- Authored **"What Could You Build on Vara.eth? Five Ideas Worth Stealing"** (September 28, 2026) — https://medium.com/@VaraNetwork/what-could-you-build-on-vara-eth-five-ideas-worth-stealing-d90713987923
+  Both articles were published under the Vara Network account; Eugene confirmed personal authorship on October 27, 2026.
+- **Robo Miner (Digger) video demo** — official Vara Network post, July 23, 2026, showing AI agents mining resources on Vara.eth: https://x.com/VaraNetwork/status/2080242009231540566
 - Product technical docs he contributed to: `[TODO: links]`
 
 ---
