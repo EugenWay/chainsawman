@@ -775,6 +775,36 @@ html.crt .tl-ok {
 
 .gal-cell:hover { border-color: var(--g); }
 .gal-cell:hover img { filter: none; }
+.gal-cell:focus-visible { outline: 2px solid var(--g); outline-offset: 3px; }
+
+.gal-video-badge,
+.gal-video-play {
+  position: absolute;
+  color: var(--g);
+  background: rgba(5, 6, 8, 0.88);
+  border: 1px solid var(--g);
+  pointer-events: none;
+}
+
+.gal-video-badge {
+  top: 0.6rem;
+  left: 0.6rem;
+  padding: 0.25rem 0.4rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+}
+
+.gal-video-play {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 50%;
+  padding-left: 0.12rem;
+}
 
 .gal-cell-cap {
   position: absolute;
@@ -807,7 +837,8 @@ html.crt .tl-ok {
   padding: 2.5rem 4rem;
 }
 
-.gal-lb img {
+.gal-lb img,
+.gal-lb video {
   max-width: min(92vw, 1100px);
   max-height: 76vh;
   object-fit: contain;

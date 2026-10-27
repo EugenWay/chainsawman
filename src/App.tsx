@@ -356,6 +356,8 @@ const MATERIAL_GROUPS = [
 
 interface GalleryItem {
   src: string
+  kind?: 'video'
+  poster?: string
   event: string
   year?: string
   place?: string
@@ -365,6 +367,7 @@ interface GalleryItem {
 // drop photos into public/gallery/ and list them here:
 // { src: '/gallery/ethcc-2023.jpg', event: 'EthCC', year: '2023', place: 'Paris', note: 'talking Vara' },
 const GALLERY: GalleryItem[] = [
+  { src: '/gallery/events-reel.mp4', kind: 'video', poster: '/gallery/events-reel-poster.jpg', event: 'Workshop', place: 'Valencia', note: 'event reel' },
   { src: '/gallery/polkadot-world-on-stage.jpg', event: 'Polkadot World', note: 'on stage' },
   { src: '/gallery/polkadot-world-community.jpg', event: 'Polkadot World', note: 'community' },
   { src: '/gallery/polkadot-decoded-vara-team.jpg', event: 'Polkadot Decoded', note: 'Vara team' },
@@ -1127,6 +1130,7 @@ function Gallery() {
   // Lightbox keyboard — single listener for the component's lifetime
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLVideoElement && e.key !== 'Escape') return
       setOpen(o => {
         if (o === null) return o
         if (e.key === 'Escape')     return null
@@ -1182,9 +1186,20 @@ function Gallery() {
           onPointerCancel={endDrag}
         >
           {items.map((p, i) => (
-            <figure key={i} className="gal-cell"
+            <figure key={i} className="gal-cell" role="button" tabIndex={0}
+              aria-label={`${p.kind === 'video' ? 'Play video' : 'Open photo'}: ${galleryAlt(p)}`}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  setOpen(i % GALLERY.length)
+                }
+              }}
               onClick={() => { if (!drag.current.moved) setOpen(i % GALLERY.length) }}>
-              <img src={p.src} alt={galleryAlt(p)} loading="lazy" draggable={false} />
+              <img src={p.kind === 'video' ? p.poster : p.src} alt={galleryAlt(p)} loading="lazy" draggable={false} />
+              {p.kind === 'video' && <>
+                <span className="gal-video-badge" aria-hidden="true">VIDEO · 0:13</span>
+                <span className="gal-video-play" aria-hidden="true">▶</span>
+              </>}
               <figcaption className="gal-cell-cap">
                 <span className="gal-tag">[{galleryEvent(p).toLowerCase()}]</span> {p.place || p.note}
               </figcaption>
@@ -1202,7 +1217,15 @@ function Gallery() {
               ‹
             </button>
           )}
-          <img src={item.src} alt={galleryAlt(item)} onClick={e => e.stopPropagation()} />
+          {item.kind === 'video' ? (
+            <video key={item.src} src={item.src} poster={item.poster}
+              controls autoPlay playsInline preload="metadata" aria-label={galleryAlt(item)}
+              onClick={e => e.stopPropagation()}>
+              Your browser does not support video playback. <a href={item.src}>Download the video</a>.
+            </video>
+          ) : (
+            <img src={item.src} alt={galleryAlt(item)} onClick={e => e.stopPropagation()} />
+          )}
           {GALLERY.length > 1 && (
             <button className="gal-lb-nav gal-lb-next" aria-label="next"
               onClick={e => { e.stopPropagation(); setOpen(o => o === null ? o : (o + 1) % GALLERY.length) }}>
