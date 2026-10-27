@@ -119,7 +119,29 @@ jobs:
           chmod 600 .env
           npm ci --omit=dev
 
-          if command -v pm2 >/dev/null 2>&1; then
+          if [ "$(systemctl show --property=LoadState --value chainsawman-chat.service 2>/dev/null || true)" = loaded ]; then
+            # Keep the existing service's user, restart policy and hardening,
+            # but point it at the same release and environment we just deployed.
+            as_root() {
+              if [ "$(id -u)" = 0 ]; then "$@"; else sudo -n "$@"; fi
+            }
+            node_path="$(command -v node)"
+            if [[ ! "$SERVER_PATH" =~ ^/[a-zA-Z0-9_./-]+$ ]] || [[ ! "$node_path" =~ ^/[a-zA-Z0-9_./-]+$ ]]; then
+              echo "Unsupported path for the systemd deployment override"
+              exit 1
+            fi
+            service_override="$(mktemp)"
+            {
+              printf '[Service]\nWorkingDirectory=%s\n' "$SERVER_PATH"
+              printf 'EnvironmentFile=\nEnvironmentFile=%s/.env\n' "$SERVER_PATH"
+              printf 'ExecStart=\nExecStart=%s %s/index.js\n' "$node_path" "$SERVER_PATH"
+            } > "$service_override"
+            as_root install -D -m 644 "$service_override" /etc/systemd/system/chainsawman-chat.service.d/deploy.conf
+            rm -f "$service_override"
+            as_root systemctl daemon-reload
+            as_root systemctl restart chainsawman-chat.service
+            systemctl is-active --quiet chainsawman-chat.service
+          elif command -v pm2 >/dev/null 2>&1; then
             pm2 delete chainsawman-chat >/dev/null 2>&1 || true
             node stop-backend.mjs
             pm2 start "$SERVER_PATH/index.js" --name chainsawman-chat --cwd "$SERVER_PATH" --update-env
