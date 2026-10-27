@@ -895,7 +895,7 @@ function Header() {
       <div className="wrap">
         <span className="header-brand">
           <span className="g">EW</span>
-          <span className="dim"> [v1.3]</span>
+          <span className="dim"> [v1.3.1]</span>
         </span>
 
         {/* desktop nav */}
