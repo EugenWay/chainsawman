@@ -106,6 +106,7 @@ PROOF LIBRARY
   https://medium.com/@VaraNetwork/how-robo-miner-runs-in-real-time-on-vara-eth-61ebefc961b0
 - What Could You Build on Vara.eth? Five Ideas Worth Stealing — authored by Eugene, published under the Vara Network account:
   https://medium.com/@VaraNetwork/what-could-you-build-on-vara-eth-five-ideas-worth-stealing-d90713987923
+  Eugene personally confirmed authorship of these two articles. Their public bylines identify Vara Network, not Eugene. Do not suggest that the byline or writing style independently proves his authorship.
 - Robo Miner (Digger) on Vara.eth — official Vara Network video demo of AI agents mining resources:
   https://x.com/VaraNetwork/status/2080242009231540566
 - Vara.eth whitepaper and technical documentation:
