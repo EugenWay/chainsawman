@@ -1030,7 +1030,18 @@ function Experience() {
 
 // ─── Education ────────────────────────────────────────────────────────────────
 
+const FLOW_PATHS = [
+  'M10 28 C80 28 95 17 145 20 S230 30 290 28',
+  'M10 49 C70 49 85 29 132 33 S220 52 290 49',
+  'M10 70 C60 70 78 39 127 46 S220 75 290 70',
+  'M10 91 C55 91 72 125 132 117 S230 91 290 91',
+  'M10 112 C70 112 83 143 142 136 S230 112 290 112',
+  'M10 137 C85 137 108 158 161 151 S230 137 290 137',
+]
+
 function Education() {
+  const [flowActive, setFlowActive] = useState(false)
+
   return (
     <section className="section" id="education" aria-labelledby="education-heading">
       <div className="sec-head">
@@ -1049,33 +1060,38 @@ function Education() {
             <span className="education-completed"><span aria-hidden="true">✓</span> Degree completed</span>
           </div>
           <figure className="education-figure">
-            <svg className="education-flow" viewBox="0 0 300 170" role="img" aria-labelledby="flow-title">
-              <title id="flow-title">Schematic streamlines around an airfoil</title>
-              <defs>
-                <pattern id="flow-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                  <path d="M 20 0 H 0 V 20" fill="none" stroke="currentColor" strokeWidth="0.5" />
-                </pattern>
-              </defs>
-              <rect width="300" height="170" fill="url(#flow-grid)" className="flow-grid" />
-              <g className="flow-guides" fill="none" stroke="currentColor" strokeWidth="1">
-                <path d="M10 28 C80 28 95 17 145 20 S230 30 290 28" />
-                <path d="M10 49 C70 49 85 29 132 33 S220 52 290 49" />
-                <path d="M10 70 C60 70 78 39 127 46 S220 75 290 70" />
-                <path d="M10 91 C55 91 72 125 132 117 S230 91 290 91" />
-                <path d="M10 112 C70 112 83 143 142 136 S230 112 290 112" />
-                <path d="M10 137 C85 137 108 158 161 151 S230 137 290 137" />
-              </g>
-              <path className="flow-airfoil" d="M76 86 C84 54 135 48 233 85 C159 97 99 107 76 86Z" />
-              <path className="flow-chord" d="M76 86 L233 85" />
-              <g className="flow-arrows" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M19 66 L25 70 L19 74 M19 108 L25 112 L19 116" />
-                <path d="M275 66 L281 70 L275 74 M275 108 L281 112 L275 116" />
-              </g>
-              <g className="flow-points" fill="currentColor">
-                <circle cx="76" cy="86" r="2.5" />
-                <circle cx="233" cy="85" r="2.5" />
-              </g>
-            </svg>
+            <button className="flow-control" type="button" aria-label="Animate airflow"
+              aria-pressed={flowActive} data-active={flowActive}
+              onPointerEnter={e => { if (e.pointerType === 'mouse') setFlowActive(true) }}
+              onPointerLeave={e => { if (e.pointerType === 'mouse') setFlowActive(false) }}
+              onClick={() => setFlowActive(active => !active)}
+              onBlur={() => setFlowActive(false)}>
+              <svg className="education-flow" viewBox="0 0 300 170" role="img" aria-labelledby="flow-title">
+                <title id="flow-title">Schematic streamlines around an airfoil</title>
+                <defs>
+                  <pattern id="flow-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <path d="M 20 0 H 0 V 20" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                  </pattern>
+                </defs>
+                <rect width="300" height="170" fill="url(#flow-grid)" className="flow-grid" />
+                <g className="flow-guides" fill="none" stroke="currentColor" strokeWidth="1">
+                  {FLOW_PATHS.map(d => <path key={d} d={d} />)}
+                </g>
+                <g className="flow-traces" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true">
+                  {FLOW_PATHS.map(d => <path key={d} d={d} pathLength="288" />)}
+                </g>
+                <path className="flow-airfoil" d="M76 86 C84 54 135 48 233 85 C159 97 99 107 76 86Z" />
+                <path className="flow-chord" d="M76 86 L233 85" />
+                <g className="flow-arrows" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M19 66 L25 70 L19 74 M19 108 L25 112 L19 116" />
+                  <path d="M275 66 L281 70 L275 74 M275 108 L281 112 L275 116" />
+                </g>
+                <g className="flow-points" fill="currentColor">
+                  <circle cx="76" cy="86" r="2.5" />
+                  <circle cx="233" cy="85" r="2.5" />
+                </g>
+              </svg>
+            </button>
           </figure>
         </div>
         <div className="education-fields" aria-label="Areas of study">
