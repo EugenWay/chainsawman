@@ -54,13 +54,47 @@ interface ChatSuggestion {
 
 // ─── Terminal boot sequence ───────────────────────────────────────────────────
 
+const SKILL_GROUPS = [
+  {
+    title: 'Software Engineering',
+    rows: [
+      { label: 'Languages', value: 'TypeScript · JavaScript · Rust · Python' },
+      { label: 'Frontend', value: 'React · Vue · HTML · CSS' },
+      { label: 'Backend & APIs', value: 'Node.js · REST · GraphQL · MongoDB' },
+      { label: 'Engineering', value: 'Workflow automation · Event-driven systems · Simulation' },
+      { label: 'Tools & testing', value: 'Git · TDD · Jest · Nginx' },
+      { label: 'Technical work', value: 'Architecture · Technical leadership · Documentation · Workshops' },
+    ],
+  },
+  {
+    title: 'Blockchain & DeFi',
+    rows: [
+      { label: 'Contracts', value: 'Rust / Sails · Solidity · WebAssembly' },
+      { label: 'Ecosystems', value: 'Gear / Vara · Vara.eth · Ethereum · Polkadot · Substrate' },
+      { label: 'DeFi', value: 'Perpetual futures · CLOBs · Margin · Liquidations · Funding · Oracles' },
+      { label: 'Infrastructure', value: 'Cross-chain messaging · Actor model · TypeScript relayers' },
+      { label: 'Tooling', value: 'gclient · polkadot.js · Pyth' },
+    ],
+  },
+]
+
+const SKILL_LINES = SKILL_GROUPS.flatMap<TLine>(group => [
+  { type: 'out', text: `  [${group.title}]`, pause: 150 },
+  ...group.rows.map<TLine>(row => ({
+    type: 'out',
+    text: `  ${row.label.toLowerCase().padEnd(15)} : ${row.value}`,
+    pause: 80,
+  })),
+  { type: 'blank', text: '', pause: 100 },
+])
+
 const BOOT: TLine[] = [
   { type: 'cmd',   text: 'init_profile --user=eugene_way --force', pause: 400 },
   { type: 'out',   text: '  loading...', pause: 200 },
   { type: 'out',   text: '  name        : Eugene Way', pause: 100 },
-  { type: 'out',   text: '  role        : Growth Tech Lead / Blockchain Engineer', pause: 100 },
-  { type: 'out',   text: '  org         : Gear Technologies Inc.', pause: 100 },
-  { type: 'out',   text: '  gear_since  : 2021', pause: 100 },
+  { type: 'out',   text: '  role        : Software Engineer', pause: 100 },
+  { type: 'out',   text: '  background  : Web apps · Workflow automation · Blockchain', pause: 100 },
+  { type: 'out',   text: '  gear        : 2021–2026 · Ecosystem → Growth Tech Lead', pause: 100 },
   { type: 'out',   text: '  location    : Madrid, Spain 🇪🇸', pause: 100 },
   { type: 'out',   text: '  speaks      : Русский · Español · English', pause: 100 },
   { type: 'out',   text: '  github      : github.com/EugenWay', pause: 100 },
@@ -69,19 +103,14 @@ const BOOT: TLine[] = [
   { type: 'ok',    text: '[OK] profile loaded — 42ms', pause: 500 },
   { type: 'blank', text: '', pause: 200 },
   { type: 'cmd',   text: 'ls ~/skills', pause: 300 },
-  { type: 'out',   text: '  languages   : Rust · TypeScript · Solidity · Python · JS', pause: 80 },
-  { type: 'out',   text: '  blockchain  : Gear/Vara · Ethereum · Polkadot · Substrate', pause: 80 },
-  { type: 'out',   text: '  defi        : Perp Futures · CLOB · Orderbooks · Oracles', pause: 80 },
-  { type: 'out',   text: '  tools       : Sails · gclient · polkadot.js · Pyth', pause: 80 },
-  { type: 'out',   text: '  arch        : Event-Driven · Actor Model · Cross-chain', pause: 300 },
-  { type: 'blank', text: '', pause: 200 },
+  ...SKILL_LINES,
   { type: 'cmd',   text: 'ls ~/contracts --stat', pause: 300 },
   { type: 'out',   text: '  VaraPerps      on-chain perps · CLOB · Rust/Sails', pause: 100 },
   { type: 'out',   text: '  CrossPing      Ethereum↔Vara reference flow', pause: 100 },
   { type: 'out',   text: '  Benchmarks     Gear.exe / Vara.eth performance demos', pause: 300 },
   { type: 'blank', text: '', pause: 200 },
   { type: 'cmd',   text: 'cat status.txt', pause: 200 },
-  { type: 'ok',    text: 'open to collab on DeFi, cross-chain & on-chain derivatives', pause: 400 },
+  { type: 'ok',    text: 'open to collab on software, automation & blockchain systems', pause: 400 },
   { type: 'blank', text: '', pause: 150 },
   { type: 'ok',    text: "ghost online. bring me a system — i'll tell you what breaks first.", pause: 0 },
 ]
@@ -158,66 +187,69 @@ function renderTerminalText(text: string) {
 
 const EXPERIENCE = [
   {
+    period: 'Feb 2023 → Aug 2026',
+    org: 'Gear Foundation',
+    role: 'Growth Tech Lead (Europe)',
+    items: [
+      {
+        text: 'Led technical work across product, frontend, backend, and external contributors: scoped features, shaped architecture, and guided implementation.',
+        link: null,
+      },
+      {
+        text: 'Built and documented Ethereum ↔ Vara reference flows with Solidity and Rust/Sails contracts and TypeScript relayers.',
+        link: { label: '↗ cross-ping', url: 'https://github.com/gear-foundation/cross-ping' },
+      },
+      {
+        text: 'Built product prototypes, performance benchmarks, and trading simulations, including perpetual futures tooling and agents interacting with Vara contracts on testnet.',
+        link: null,
+      },
+      {
+        text: 'Wrote technical documentation, whitepapers, and architecture explainers for Vara.eth, connecting protocol design to working reference applications.',
+        link: { label: '↗ vara.eth', url: 'https://eth.vara.network/whitepaper' },
+      },
+    ],
+  },
+  {
     period: 'Aug 2021 → Jul 2023',
     org: 'Gear Technologies Inc.',
     role: 'Ecosystem Lead (Europe)',
     items: [
       {
-        text: 'Built practical use cases, demos, and reference examples that showed what the Gear/Vara L1 could actually do.',
-        link: null,
+        text: 'Built example applications, smart contracts, and demos that turned Gear/Vara protocol capabilities into working use cases for developers.',
+        link: { label: '↗ examples', url: 'https://github.com/gear-foundation/dapps' },
       },
       {
-        text: 'Worked across developer education, technical workshops, smart-contract examples, docs, and conference talks at Polkadot ecosystem events, Sub0, EthCC, and ETH conferences.',
+        text: 'Created technical documentation, ran developer workshops, and gave talks at Polkadot ecosystem events, Sub0, EthCC, and Ethereum conferences.',
         link: { label: '↗ gear-wiki', url: 'https://github.com/gear-foundation/gear-wiki' },
       },
       {
-        text: 'Took abstract protocol capabilities and turned them into things builders could see, run, break, and build on top of.',
+        text: 'Supported wallet, explorer, market data, and indexing integrations, including SubWallet, Subscan, CoinMarketCap, RPC setup, and network metadata.',
         link: null,
-      },
-      {
-        text: 'Supported external integrations with ecosystem partners and infrastructure providers — wallets, explorers, market data platforms, data/indexing tools, and Polkadot developer tooling, including SubWallet, Subscan, CoinMarketCap, RPC setup, network metadata, and wallet/extension flows.',
-        link: null,
-      },
-    ],
-  },
-  {
-    period: 'Feb 2023 → present',
-    org: 'Gear Technologies Inc.',
-    role: 'Growth Tech Lead (Europe)',
-    items: [
-      {
-        text: 'Worked as the technical point between product, frontend, backend, and external contributors — scoping features, shaping architecture, reviewing implementation direction, and turning protocol ideas into things the team could actually ship.',
-        link: null,
-      },
-      {
-        text: 'Moved deeper into internal products, Vara.eth, and developer-facing infrastructure: technical docs, whitepapers, reference apps, cross-chain examples, and on-chain systems that made the platform easier to understand and harder to dismiss.',
-        link: { label: '↗ vara.eth', url: 'https://eth.vara.network/whitepaper' },
-      },
-      {
-        text: 'Worked on Vara.eth materials and architecture explainers, including the public whitepaper and technical documentation.',
-        link: { label: '↗ technical pdf', url: 'https://eth.vara.network/whitepaper/vara.eth-technical.pdf' },
-      },
-      {
-        text: 'Built and documented reference flows around Ethereum ↔ Vara messaging with Solidity, Rust/Sails, and TypeScript relayers.',
-        link: { label: '↗ cross-ping', url: 'https://github.com/gear-foundation/cross-ping' },
-      },
-      {
-        text: 'Built product prototypes and simulations around on-chain compute and DeFi: Gear.exe / Vara.eth benchmark examples, perp futures tooling, and trading simulation systems that run against real Vara contracts instead of staying as diagrams.',
-        link: null,
-      },
-      {
-        text: 'Public footprint: 600+ commits across Gear/Vara repos, from docs and ecosystem examples to cross-chain flows, whitepapers, and product prototypes.',
-        link: { label: '↗ github', url: 'https://github.com/search?q=author%3AEugenWay+org%3Agear-foundation&type=commits' },
       },
     ],
   },
   {
     period: '2018 → 2021',
     org: 'Freelance / Consulting',
-    role: 'Developer & Web3 Consultant',
+    role: 'Software Developer & Consultant',
     items: [
       {
-        text: 'Consulted for CoinTelegraph on the Polkadot ecosystem and architecture.',
+        text: 'Advised Cointelegraph on a Polkadot staking project covering validator setup and a frontend dashboard.',
+        link: null,
+      },
+      {
+        text: 'Explained consensus mechanics and validator-set operation, and guided frontend developers through client-library usage and integration.',
+        link: null,
+      },
+    ],
+  },
+  {
+    period: 'Sep 2013 → Dec 2015',
+    org: 'Comindware',
+    role: 'Frontend Developer',
+    items: [
+      {
+        text: 'Developed frontend interfaces for configurable workflow automation and process tracking tools, later expanding into project management software.',
         link: null,
       },
     ],
@@ -655,8 +687,13 @@ function Terminal() {
     if (cmd === 'help') {
       print([
         { type: 'out', text: '  just talk to me — ask about my work, projects, web3, whatever.', pause: 0 },
-        { type: 'out', text: '  commands: help · clear · neofetch · stats · crt on|off', pause: 0 },
+        { type: 'out', text: '  commands: help · skills · clear · neofetch · stats · crt on|off', pause: 0 },
       ])
+      return
+    }
+
+    if (cmd === 'skills' || cmd === 'ls ~/skills') {
+      print(SKILL_LINES)
       return
     }
 
@@ -768,7 +805,7 @@ function Terminal() {
               style={{ width: input.length > 0 ? `${input.length}ch` : '0px' }}
             />
             <span className="block-cursor">█</span>
-            {input === '' && <span className="term-hint">{busy ? 'thinking…' : 'describe a system, idea, or technical mess...'}</span>}
+            {input === '' && <span className="term-hint">{busy ? 'thinking…' : 'type skills, or ask me a question...'}</span>}
           </div>
         )}
         {done && !asked && !busy && (
@@ -810,7 +847,7 @@ function Terminal() {
 function Header() {
   const [dark, setDark] = useState(true)
   const [open, setOpen] = useState(false)
-  const NAV = ['about', 'experience', ...(GALLERY.length > 0 ? ['events'] : []), 'materials']
+  const NAV = ['about', 'experience', 'education', ...(GALLERY.length > 0 ? ['events'] : []), 'materials']
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
@@ -879,10 +916,9 @@ function Hero() {
       <div className="hero-inner">
         <div className="hero-head">
           <div className="hero-eyebrow">
-            <span className="pulse-dot" /> Tech Lead · Blockchain Engineer · Technical Writer
+            <span className="pulse-dot" /> Software Engineer
           </div>
           <ParticleTitle />
-          <div className="hero-aka dim">// chainsaw man of web3</div>
         </div>
         <Terminal />
       </div>
@@ -903,20 +939,20 @@ function About() {
           Beyond the <span className="g">exceptional aesthetic taste</span>. I can actually build things.
         </p>
         <p>
-          Web3 has a funny way of making you try on every hat in the wardrobe.
-          Over the years I've worked across ecosystem, DevRel, technical writing,
-          smart contracts, cross-chain infrastructure, conference talks, and product
-          architecture. Sometimes in the same month. Honestly, I like it that way.
+          Before Web3, I worked in frontend development and workflow automation.
+          At Gear, from 2021 to 2026, my work grew from developer tools and ecosystem
+          examples into product development and technical leadership.
         </p>
         <p>
-          I started around the Substrate and smart-contract rabbit hole, then kept
-          going deeper: AMMs, CLOBs, bridges, whitepapers, perp futures, and enough
-          protocol edge cases to ruin a normal person's weekend.
+          Blockchain and DeFi are where I've gone deepest: Rust and Solidity
+          contracts, order books, perpetual futures, cross-chain messaging, and
+          market simulations. I also write the docs and explain how the pieces fit
+          together, whether that's in a whitepaper or a room full of developers.
         </p>
         <p>
-          These days, most of my work sits around Vara and Vara.eth: building DeFi
-          primitives, cross-chain flows, reference apps, technical docs, and all the
-          weird little use cases that turn a protocol from "interesting" into actually usable.
+          I like moving between investigation, implementation, and explanation.
+          Give me an unfamiliar problem, let me figure it out, and
+          <span className="g"> build something real out of it</span>.
         </p>
         <p>
           That's the chainsaw man way: cut through the noise, get your hands dirty,
@@ -959,6 +995,78 @@ function Experience() {
           </div>
         ))}
       </div>
+    </section>
+  )
+}
+
+// ─── Education ────────────────────────────────────────────────────────────────
+
+function Education() {
+  return (
+    <section className="section" id="education" aria-labelledby="education-heading">
+      <div className="sec-head">
+        <h2 className="sec-label" id="education-heading">// EDUCATION</h2>
+      </div>
+      <article className="education-card" aria-labelledby="education-school">
+        <div className="education-bar">
+          <span className="education-label"><span className="education-marker" aria-hidden="true" /> Academic foundation</span>
+          <span className="education-period">[2006 — 2012]</span>
+        </div>
+        <div className="education-main">
+          <div className="education-qualification">
+            <h3 className="education-school" id="education-school">Moscow Aviation Institute</h3>
+            <p className="education-university">National Research University</p>
+            <p className="education-degree">Engineer's degree in Aerodynamics</p>
+            <span className="education-completed"><span aria-hidden="true">✓</span> Degree completed</span>
+          </div>
+          <figure className="education-figure">
+            <svg className="education-flow" viewBox="0 0 300 170" role="img" aria-labelledby="flow-title">
+              <title id="flow-title">Schematic streamlines around an airfoil</title>
+              <defs>
+                <pattern id="flow-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M 20 0 H 0 V 20" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                </pattern>
+              </defs>
+              <rect width="300" height="170" fill="url(#flow-grid)" className="flow-grid" />
+              <g className="flow-guides" fill="none" stroke="currentColor" strokeWidth="1">
+                <path d="M10 28 C80 28 95 17 145 20 S230 30 290 28" />
+                <path d="M10 49 C70 49 85 29 132 33 S220 52 290 49" />
+                <path d="M10 70 C60 70 78 39 127 46 S220 75 290 70" />
+                <path d="M10 91 C55 91 72 125 132 117 S230 91 290 91" />
+                <path d="M10 112 C70 112 83 143 142 136 S230 112 290 112" />
+                <path d="M10 137 C85 137 108 158 161 151 S230 137 290 137" />
+              </g>
+              <path className="flow-airfoil" d="M76 86 C84 54 135 48 233 85 C159 97 99 107 76 86Z" />
+              <path className="flow-chord" d="M76 86 L233 85" />
+              <g className="flow-arrows" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M19 66 L25 70 L19 74 M19 108 L25 112 L19 116" />
+                <path d="M275 66 L281 70 L275 74 M275 108 L281 112 L275 116" />
+              </g>
+              <g className="flow-points" fill="currentColor">
+                <circle cx="76" cy="86" r="2.5" />
+                <circle cx="233" cy="85" r="2.5" />
+              </g>
+            </svg>
+          </figure>
+        </div>
+        <div className="education-fields" aria-label="Areas of study">
+          <div className="education-field">
+            <span className="education-field-index" aria-hidden="true">[01]</span>
+            <h4>Aerodynamics</h4>
+            <p>High-speed flow<br />Gas dynamics</p>
+          </div>
+          <div className="education-field">
+            <span className="education-field-index" aria-hidden="true">[02]</span>
+            <h4>Fluid mechanics</h4>
+            <p>Hydrodynamics<br />Fluid behavior</p>
+          </div>
+          <div className="education-field">
+            <span className="education-field-index" aria-hidden="true">[03]</span>
+            <h4>Numerical modeling</h4>
+            <p>Numerical methods<br />Mathematical models</p>
+          </div>
+        </div>
+      </article>
     </section>
   )
 }
@@ -1160,6 +1268,7 @@ export default function App() {
       <main className="container">
         <About />
         <Experience />
+        <Education />
         {GALLERY.length > 0 && <Gallery />}
         <Materials />
       </main>

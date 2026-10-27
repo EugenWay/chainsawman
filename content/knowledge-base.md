@@ -6,19 +6,43 @@
 ## Identity
 
 - **Name:** Eugene Way
-- **What he is:** blockchain engineer + multitool — did ecosystem/DevRel, in-house product dev, technical writing, and tech lead work. Roles blended over time, especially later. Proud of the range, not apologetic about it.
+- **What he is:** software engineer with an academic background in aerodynamics. Experience spans web applications, workflow automation, blockchain/DeFi, developer tooling, technical writing, and technical leadership.
 - **In web3 since:** 2017
 - **Based in:** Madrid, Spain
-- **Org:** Gear Foundation / Gear Tech (Vara Network)
-- **Vibe:** "chainsaw man of web3" — cuts through the noise and ships.
+- **Previous org:** Gear Foundation / Gear Technologies (Vara Network), 2021–2026. Latest role ended in August 2026 according to LinkedIn.
+- **Vibe:** hands-on, curious, multidisciplinary builder. The Chainsaw Man nickname is personality, not a restriction to Web3.
 
 ## Positioning (the through-line)
 
-Eugene is not a single-lane specialist. Across his time at Gear he wore every hat: wrote ecosystem examples, ran workshops, spoke at conferences, then built in-house products, wrote whitepapers and docs, and led technical work. The point of the story is **real, hands-on, varied work** — shown with proof — not a corporate skills-matrix. Toward the end the roles fully blended (multitool).
+Lead with **Software Engineer**. Eugene chose this as his general professional identity, without listing Tech Lead, Technical Writer, or Blockchain Engineer alongside his name. Technical leadership and specializations belong in the experience and work examples.
+
+Across his time at Gear he wrote ecosystem examples, ran workshops, spoke at conferences, built in-house products, wrote whitepapers and docs, and led technical work. Keep the emphasis on hands-on work and specific artifacts. Skills are grouped by software engineering and blockchain/DeFi inside the terminal animation and the local `skills` command; do not duplicate the full list as a separate page section.
+
+Eugene describes technical leadership as understanding the architecture, full pipeline, and product lifecycle; communicating the goal; guiding who implements what; mentoring, helping, reviewing, and writing code. His work involved multiple autonomous initiatives rather than ownership of a single long-running product. Do not turn this into a people-management claim or attribute every Ecosystem Team product to him personally.
+
+## Earlier experience
+
+- **Frontend Developer, Comindware — September 2013 to December 2015.** Role and dates verified on LinkedIn. Eugene confirmed that the team built configurable workflow automation and process tracking tools, then worked on project management software. Keep this as a compact earlier-experience entry; do not invent particular features, customers, or metrics.
+- **Software Developer & Consultant — 2018 to 2021.** Advised Cointelegraph on a Polkadot staking project involving validator setup and a frontend dashboard. Explained consensus mechanics and validator-set operation, and guided frontend developers through client-library usage and integration. Eugene confirmed this scope on 2026-10-20.
+- The Cointelegraph work was technical consulting. Do not claim he implemented a consensus algorithm, built the whole dashboard, operated production validators, or owned the entire product.
+
+## Education
+
+- **Moscow Aviation Institute (National Research University), 2006–2012.**
+- **Engineer's degree in Aerodynamics.** Completed degree; institution, qualification, and dates verified on LinkedIn.
+- Academic foundation in high-speed aerodynamics, gas dynamics, fluid mechanics and hydrodynamics, numerical methods, and mathematical modeling, based on Eugene's description.
+- This is academic background, not evidence of a professional aerospace role. Do not invent a thesis, aerospace employer, CFD software expertise, or a different degree equivalence.
+
+## Sources for the October 2026 CV update
+
+- [LinkedIn profile](https://www.linkedin.com/in/eugene-way-5b81b4188/) and [skills](https://www.linkedin.com/in/eugene-way-5b81b4188/details/skills/), read in the signed-in browser on 2026-10-20.
+- [Comindware company history](https://www.comindware.ru/company/), for company/product context only.
+- Eugene's instructions in this conversation, 2026-10-20, for the Comindware product progression, Cointelegraph consulting scope, educational subject areas, and broader software engineering positioning.
+- LinkedIn dates: Ecosystem Lead, August 2021–July 2023; Growth Tech Lead, February 2023–August 2026. Preserve the recorded overlap rather than inventing a clean handover.
 
 ---
 
-## The three phases
+## Gear experience — three overlapping areas of work
 
 ### Phase 1 — Ecosystem / DevRel  ("Ecosystem Lead")
 
@@ -62,13 +86,25 @@ Eugene is not a single-lane specialist. Across his time at Gear he wore every ha
 
 ---
 
-## Skills (from CV — confirmed)
+## Skills
 
-- **Languages:** Rust, TypeScript, Solidity, Python, JS
-- **Blockchain:** Gear/Vara, Ethereum, Polkadot, Substrate
-- **DeFi:** Perp Futures, CLOB, Liquidations, Funding, Oracles
-- **Tools:** Sails, gclient, polkadot.js, Pyth
-- **Arch:** Event-Driven, Actor Model, Cross-chain
+### Software engineering
+
+- **Languages:** TypeScript, JavaScript, Rust, Python.
+- **Frontend:** React, Vue, HTML, CSS.
+- **Backend and APIs:** Node.js, REST, GraphQL, MongoDB.
+- **Engineering:** workflow automation, event-driven systems, simulation.
+- **Tools and testing:** Git, TDD, Jest, Nginx.
+- **Technical work:** architecture, technical leadership, documentation, workshops.
+- LinkedIn also lists Angular, Polymer, Webpack, Jasmine, R, and RStudio. These are listed skills, not evidence of current depth or recent professional use.
+
+### Blockchain and DeFi
+
+- **Contracts:** Rust/Sails, Solidity, WebAssembly.
+- **Ecosystems:** Gear/Vara, Vara.eth, Ethereum, Polkadot, Substrate.
+- **DeFi:** perpetual futures, CLOBs, margin, liquidations, funding, oracles.
+- **Infrastructure:** cross-chain messaging, actor model, TypeScript relayers.
+- **Tooling:** gclient, polkadot.js, Pyth.
 
 ## Links inventory (confirmed)
 
