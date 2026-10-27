@@ -33,6 +33,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Test backend process control
+        run: node --test scripts/backend-process-control.test.mjs
+
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
@@ -75,6 +78,8 @@ jobs:
           rsync -avz --delete \
             --exclude node_modules \
             --exclude .env \
+            --exclude chainsawman-chat.pid \
+            --exclude chainsawman-chat.log \
             -e "ssh -i ~/.ssh/deploy_key -p ${SSH_PORT:-22}" \
             server/ "${SSH_USER}@${SSH_HOST}:${SERVER_PATH}/"
         env:
@@ -114,28 +119,21 @@ jobs:
           chmod 600 .env
           npm ci --omit=dev
 
-          if command -v lsof >/dev/null 2>&1; then
-            port_pids="$(lsof -ti tcp:"$BACKEND_PORT" -sTCP:LISTEN || true)"
-            if [ -n "$port_pids" ]; then
-              kill $port_pids || true
-              sleep 1
-            fi
-          fi
-
           if command -v pm2 >/dev/null 2>&1; then
             pm2 delete chainsawman-chat >/dev/null 2>&1 || true
+            node stop-backend.mjs
             pm2 start "$SERVER_PATH/index.js" --name chainsawman-chat --cwd "$SERVER_PATH" --update-env
             pm2 save >/dev/null 2>&1 || true
           else
-            if [ -f chainsawman-chat.pid ]; then
-              old_pid="$(cat chainsawman-chat.pid || true)"
-              if [ -n "$old_pid" ] && kill -0 "$old_pid" 2>/dev/null; then
-                kill "$old_pid" || true
-                sleep 1
-              fi
-            fi
+            node stop-backend.mjs
             nohup node index.js > chainsawman-chat.log 2>&1 &
-            echo $! > chainsawman-chat.pid
+            chat_pid=$!
+            echo "$chat_pid" > chainsawman-chat.pid
+            sleep 2
+            if ! kill -0 "$chat_pid" 2>/dev/null; then
+              echo "New chat process exited during startup"
+              exit 1
+            fi
           fi
 
           sleep 2
