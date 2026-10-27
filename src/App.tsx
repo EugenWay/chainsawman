@@ -263,7 +263,7 @@ const EXPERIENCE = [
 interface MaterialGroup {
   label: string
   description: string
-  items: { title: string; type: string; url: string; note?: string }[]
+  items: { title: string; type: string; url: string }[]
 }
 
 const MATERIAL_GROUPS: MaterialGroup[] = [
@@ -300,7 +300,6 @@ const MATERIAL_GROUPS: MaterialGroup[] = [
         title: 'Introducing Gear.exe: Computation Engine for Ethereum',
         type: 'medium',
         url: 'https://medium.com/@gear_techs/introducing-gear-exe-computation-engine-for-ethereum-54816874d8e6',
-        note: 'Launch article · author',
       },
     ],
   },
@@ -333,7 +332,6 @@ const MATERIAL_GROUPS: MaterialGroup[] = [
         title: 'Vara.eth Tutorials',
         type: 'x',
         url: 'https://x.com/VaraNetwork/status/2044430651273974112',
-        note: 'Built the interactive learning platform · launch announcement',
       },
       {
         title: 'Robo Miner (Digger) on Vara.eth demo',
@@ -344,7 +342,6 @@ const MATERIAL_GROUPS: MaterialGroup[] = [
         title: 'Arkanoid Simulation: Gear.exe vs L2s',
         type: 'youtube',
         url: 'https://www.youtube.com/watch?v=KXLQ5kbteS0',
-        note: 'Built the simulation and demo video',
       },
       {
         title: 'Arkanoid parallel simulation — source code',
@@ -1295,10 +1292,7 @@ function Materials() {
             {group.items.map(m => (
               <a key={m.title} href={m.url} target="_blank" rel="noreferrer" className="mat-row">
                 <span className="mat-type">[{m.type}]</span>
-                <span className="mat-title">
-                  {m.title}
-                  {m.note && <span className="mat-note">{m.note}</span>}
-                </span>
+                <span className="mat-title">{m.title}</span>
                 <span className="dim mat-arr">→</span>
               </a>
             ))}

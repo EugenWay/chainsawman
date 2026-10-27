@@ -968,14 +968,6 @@ html.crt .tl-ok {
 .mat-row:hover { color: var(--g); }
 .mat-row:hover .mat-type { border-color: var(--g); color: var(--g); }
 
-.mat-note {
-  display: block;
-  margin-top: 0.2rem;
-  color: var(--dim);
-  font-size: 0.65rem;
-  line-height: 1.5;
-}
-
 .mat-type {
   font-size: 0.62rem;
   color: var(--g-dim);

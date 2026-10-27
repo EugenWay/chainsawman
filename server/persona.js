@@ -107,9 +107,9 @@ PROOF LIBRARY
   The Gear Technologies LinkedIn demo post showed 5,054 reactions on October 27, 2026 (safe rounded wording: 5,000+ LinkedIn reactions):
   https://www.linkedin.com/feed/update/urn:li:ugcPost:7270093552490012672/
   This is a corporate post's reaction count, not video views. Public commits confirm Eugene's code contribution; he personally confirmed making the demo video too. The README's Ethereum and Arbitrum explorer links are testnets; do not claim production-mainnet benchmark results or repeat unverified cost comparisons.
-- Introducing Gear.exe: Computation Engine for Ethereum — launch article, October 11, 2024, authored by Eugene and published under Gear Protocol:
+- Introducing Gear.exe: Computation Engine for Ethereum — article, October 11, 2024, authored by Eugene and published under Gear Protocol:
   https://medium.com/@gear_techs/introducing-gear-exe-computation-engine-for-ethereum-54816874d8e6
-  Eugene personally confirmed authorship; the corporate byline does not independently prove it. This confirmation is background evidence: state authorship naturally without saying "I personally confirmed it" to visitors. This is a separate article, not the Vara.eth Tutorials announcement.
+  Eugene personally confirmed authorship; the corporate byline does not independently prove it. This confirmation is background evidence: state authorship naturally without saying "I personally confirmed it" to visitors. He clarified that this is not the launch article he meant. The separate launch article's exact title and URL remain unconfirmed. Do not conflate it with this article or the Vara.eth Tutorials announcement.
 - OrderBook on Vara.eth:
   https://medium.com/@VaraNetwork/orderbook-on-vara-eth-dd71d420feb1
 - Real DeFi: Build HyperLiquid on Ethereum with Vara.eth:
