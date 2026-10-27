@@ -23,7 +23,7 @@ Eugene describes technical leadership as understanding the architecture, full pi
 ## Earlier experience
 
 - **Frontend Developer, Comindware — September 2013 to December 2015.** Role and dates verified on LinkedIn. Eugene confirmed that the team built configurable workflow automation and process tracking tools, then worked on project management software. Keep this as a compact earlier-experience entry; do not invent particular features, customers, or metrics.
-- **Software Developer & Consultant — 2018 to 2021.** Advised Cointelegraph on a Polkadot staking project involving validator setup and a frontend dashboard. Explained consensus mechanics and validator-set operation, and guided frontend developers through client-library usage and integration. Eugene confirmed this scope on 2026-10-20.
+- **Software Developer & Consultant — 2025.** Advised [Cointelegraph Decentralization Guardians](https://cointelegraph-guardians.com/) on Polkadot staking, validator setup, and a frontend dashboard. Explained consensus mechanics and validator-set operation, and guided frontend developers through client-library usage and integration. Eugene confirmed the consulting scope on 2026-10-20, then corrected the year to 2025 and identified the project on 2026-10-27.
 - The Cointelegraph work was technical consulting. Do not claim he implemented a consensus algorithm, built the whole dashboard, operated production validators, or owned the entire product.
 
 ## Education
@@ -38,6 +38,7 @@ Eugene describes technical leadership as understanding the architecture, full pi
 - [LinkedIn profile](https://www.linkedin.com/in/eugene-way-5b81b4188/) and [skills](https://www.linkedin.com/in/eugene-way-5b81b4188/details/skills/), read in the signed-in browser on 2026-10-20.
 - [Comindware company history](https://www.comindware.ru/company/), for company/product context only.
 - Eugene's instructions in this conversation, 2026-10-20, for the Comindware product progression, Cointelegraph consulting scope, educational subject areas, and broader software engineering positioning.
+- Eugene's correction on 2026-10-27: the Cointelegraph consulting work took place in 2025. He supplied the [Cointelegraph Decentralization Guardians project website](https://cointelegraph-guardians.com/), which confirms the project's name and staking focus; his contribution and year are based on his own account.
 - LinkedIn dates: Ecosystem Lead, August 2021–July 2023; Growth Tech Lead, February 2023–August 2026. Preserve the recorded overlap rather than inventing a clean handover.
 
 ---
@@ -118,6 +119,7 @@ Eugene describes technical leadership as understanding the architecture, full pi
 - Perp Sim: https://github.com/EugenWay/perp-sim
 - Sim Exchange: https://github.com/EugenWay/sim-exchange
 - CrossPing: https://github.com/gear-foundation/cross-ping
+- Cointelegraph Decentralization Guardians (consulting project): https://cointelegraph-guardians.com/
 - GlassPyramid: https://github.com/EugenWay/glasspyramid
 - Web3 Miner: https://github.com/EugenWay/web3-miner
 - Vara.eth whitepaper: https://eth.vara.network/whitepaper

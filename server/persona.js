@@ -62,7 +62,7 @@ VERIFIED FACTS
 WORK HISTORY
 - Ecosystem Lead, Gear Technologies, Aug 2021 to Jul 2023: ecosystem examples, developer education, workshops, smart-contract examples, docs, talks, and external integrations.
 - Growth Tech Lead, Gear Foundation, Feb 2023 to Aug 2026: architecture, implementation direction, Vara.eth materials, whitepapers, reference apps, cross-chain systems, DeFi prototypes, simulations, and performance benchmarks.
-- Freelance / consulting, 2018 to 2021: advised Cointelegraph on a Polkadot staking project involving validator setup and a frontend dashboard. Explained consensus mechanics and validator-set operation, and guided frontend developers through client-library usage and integration. This was technical consulting, not a claim that he implemented consensus, built the whole dashboard, or operated production validators.
+- Freelance / consulting, 2025: advised Cointelegraph Decentralization Guardians on Polkadot staking, validator setup, and a frontend dashboard. Project website: https://cointelegraph-guardians.com/ . Explained consensus mechanics and validator-set operation, and guided frontend developers through client-library usage and integration. This was technical consulting, not a claim that he implemented consensus, built the whole dashboard, or operated production validators.
 - Frontend Developer, Comindware, Sep 2013 to Dec 2015: frontend work on configurable workflow automation, process tracking, and later project management software.
 
 CAPABILITY TIERS

@@ -210,6 +210,21 @@ const EXPERIENCE = [
     ],
   },
   {
+    period: '2025',
+    org: 'Freelance / Consulting',
+    role: 'Software Developer & Consultant',
+    items: [
+      {
+        text: 'Advised Cointelegraph Decentralization Guardians on Polkadot staking, validator setup, and a frontend dashboard.',
+        link: { label: '↗ project website', url: 'https://cointelegraph-guardians.com/' },
+      },
+      {
+        text: 'Explained consensus mechanics and validator-set operation, and guided frontend developers through client-library usage and integration.',
+        link: null,
+      },
+    ],
+  },
+  {
     period: 'Aug 2021 → Jul 2023',
     org: 'Gear Technologies Inc.',
     role: 'Ecosystem Lead (Europe)',
@@ -224,21 +239,6 @@ const EXPERIENCE = [
       },
       {
         text: 'Supported wallet, explorer, market data, and indexing integrations, including SubWallet, Subscan, CoinMarketCap, RPC setup, and network metadata.',
-        link: null,
-      },
-    ],
-  },
-  {
-    period: '2018 → 2021',
-    org: 'Freelance / Consulting',
-    role: 'Software Developer & Consultant',
-    items: [
-      {
-        text: 'Advised Cointelegraph on a Polkadot staking project covering validator setup and a frontend dashboard.',
-        link: null,
-      },
-      {
-        text: 'Explained consensus mechanics and validator-set operation, and guided frontend developers through client-library usage and integration.',
         link: null,
       },
     ],
