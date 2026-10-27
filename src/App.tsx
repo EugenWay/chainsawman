@@ -367,8 +367,8 @@ interface GalleryItem {
 // drop photos into public/gallery/ and list them here:
 // { src: '/gallery/ethcc-2023.jpg', event: 'EthCC', year: '2023', place: 'Paris', note: 'talking Vara' },
 const GALLERY: GalleryItem[] = [
-  { src: '/gallery/events-reel.mp4', kind: 'video', poster: '/gallery/events-reel-poster.jpg', event: 'Workshop', place: 'Valencia', note: 'event reel' },
   { src: '/gallery/polkadot-world-on-stage.jpg', event: 'Polkadot World', note: 'on stage' },
+  { src: '/gallery/events-reel.mp4', kind: 'video', poster: '/gallery/events-reel-poster.jpg', event: 'Workshop', place: 'Valencia', note: 'event reel' },
   { src: '/gallery/polkadot-world-community.jpg', event: 'Polkadot World', note: 'community' },
   { src: '/gallery/polkadot-decoded-vara-team.jpg', event: 'Polkadot Decoded', note: 'Vara team' },
   { src: '/gallery/event-01-vara-booth.webp', event: 'ETHGlobal', year: '2024', place: 'Brussels' },
