@@ -148,3 +148,27 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Diagnose backend startup failure
+        if: failure()
+        run: |
+          remote_path="$(printf '%q' "$SERVER_PATH")"
+          remote_port="$(printf '%q' "$BACKEND_PORT")"
+          ssh -i ~/.ssh/deploy_key -p "${SSH_PORT:-22}" \
+            "${SSH_USER}@${SSH_HOST}" \
+            "SERVER_PATH=$remote_path BACKEND_PORT=$remote_port bash -s" <<'REMOTE'
+          cd "$SERVER_PATH"
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'
+          const log = fs.existsSync('chainsawman-chat.log') ? fs.readFileSync('chainsawman-chat.log', 'utf8') : ''
+          const codes = [...new Set(log.match(/\b(?:EADDRINUSE|EACCES|ENOENT|ERR_[A-Z_]+|SyntaxError|ReferenceError|TypeError)\b/g) || [])]
+          console.log('Startup error codes:', codes)
+          console.log('Missing API key:', log.includes('OPENAI_API_KEY is not set'))
+          NODE
+          ss -ltnp "sport = :${BACKEND_PORT}" || true
+          systemctl list-units --all --no-pager '*chainsawman*' || true
+          REMOTE
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
