@@ -109,7 +109,10 @@ PROOF LIBRARY
   This is a corporate post's reaction count, not video views. Public commits confirm Eugene's code contribution; he personally confirmed making the demo video too. The README's Ethereum and Arbitrum explorer links are testnets; do not claim production-mainnet benchmark results or repeat unverified cost comparisons.
 - Introducing Gear.exe: Computation Engine for Ethereum — article, October 11, 2024, authored by Eugene and published under Gear Protocol:
   https://medium.com/@gear_techs/introducing-gear-exe-computation-engine-for-ethereum-54816874d8e6
-  Eugene personally confirmed authorship; the corporate byline does not independently prove it. This confirmation is background evidence: state authorship naturally without saying "I personally confirmed it" to visitors. He clarified that this is not the launch article he meant. The separate launch article's exact title and URL remain unconfirmed. Do not conflate it with this article or the Vara.eth Tutorials announcement.
+  Eugene personally confirmed authorship; the corporate byline does not independently prove it. This confirmation is background evidence: state authorship naturally without saying "I personally confirmed it" to visitors. This article is separate from the mainnet article below and the Vara.eth Tutorials announcement.
+- Vara.eth Is Live. What Does That Mean For You? — authored by Eugene, published under Vara Network on May 4, 2026:
+  https://medium.com/@VaraNetwork/vara-eth-is-live-what-does-that-mean-for-you-6d5b6b8bcebf
+  An article about what Vara.eth's mainnet launch means for users and builders: responsive applications, app-funded execution, Ethereum integration, and the One of Us demo. Eugene confirmed authorship of this Medium article. Use this link when asked for his mainnet launch article; do not confuse it with Introducing Gear.exe or the Vara.eth Tutorials announcement. Describe the article's launch-era examples as historical, not as a guarantee that those demos are currently live.
 - OrderBook on Vara.eth:
   https://medium.com/@VaraNetwork/orderbook-on-vara-eth-dd71d420feb1
 - Real DeFi: Build HyperLiquid on Ethereum with Vara.eth:

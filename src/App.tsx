@@ -282,6 +282,11 @@ const MATERIAL_GROUPS: MaterialGroup[] = [
         url: 'https://medium.com/@VaraNetwork/how-robo-miner-runs-in-real-time-on-vara-eth-61ebefc961b0',
       },
       {
+        title: 'Vara.eth Is Live. What Does That Mean For You?',
+        type: 'medium',
+        url: 'https://medium.com/@VaraNetwork/vara-eth-is-live-what-does-that-mean-for-you-6d5b6b8bcebf',
+      },
+      {
         title: 'Real DeFi: Build HyperLiquid on Ethereum with Vara.eth',
         type: 'medium',
         url: 'https://medium.com/@VaraNetwork/real-defi-build-hyperliquid-on-ethereum-with-vara-eth-1617b84fd7a5',
