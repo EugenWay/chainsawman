@@ -200,8 +200,12 @@ const EXPERIENCE = [
         link: { label: '↗ cross-ping', url: 'https://github.com/gear-foundation/cross-ping' },
       },
       {
-        text: 'Built product prototypes, performance benchmarks, and trading simulations, including perpetual futures tooling and agents interacting with Vara contracts on testnet.',
-        link: null,
+        text: 'Built the Arkanoid simulation and demo video to demonstrate Gear.exe’s parallel execution.',
+        link: { label: '↗ demo · 5,000+ LinkedIn reactions', url: 'https://www.linkedin.com/feed/update/urn:li:ugcPost:7270093552490012672/' },
+      },
+      {
+        text: 'Developed Vara.eth Tutorials, an interactive learning platform connected to the SDK, covering Sails programs, Ethereum integration, and on-chain messaging.',
+        link: { label: '↗ launch announcement', url: 'https://x.com/VaraNetwork/status/2044430651273974112' },
       },
       {
         text: 'Wrote technical documentation, whitepapers, and architecture explainers for Vara.eth, connecting protocol design to working reference applications.',
@@ -256,7 +260,13 @@ const EXPERIENCE = [
   },
 ]
 
-const MATERIAL_GROUPS = [
+interface MaterialGroup {
+  label: string
+  description: string
+  items: { title: string; type: string; url: string; note?: string }[]
+}
+
+const MATERIAL_GROUPS: MaterialGroup[] = [
   {
     label: 'articles',
     description: 'thinking / technical narratives',
@@ -290,6 +300,7 @@ const MATERIAL_GROUPS = [
         title: 'Introducing Gear.exe: Computation Engine for Ethereum',
         type: 'medium',
         url: 'https://medium.com/@gear_techs/introducing-gear-exe-computation-engine-for-ethereum-54816874d8e6',
+        note: 'Launch article · author',
       },
     ],
   },
@@ -319,9 +330,10 @@ const MATERIAL_GROUPS = [
     description: 'code / videos / reference apps',
     items: [
       {
-        title: 'Gear & Vara at Polkadot World Madrid (2022)',
-        type: 'youtube',
-        url: 'https://www.youtube.com/watch?v=-lvdD7yVdME',
+        title: 'Vara.eth Tutorials',
+        type: 'x',
+        url: 'https://x.com/VaraNetwork/status/2044430651273974112',
+        note: 'Built the interactive learning platform · launch announcement',
       },
       {
         title: 'Robo Miner (Digger) on Vara.eth demo',
@@ -329,9 +341,15 @@ const MATERIAL_GROUPS = [
         url: 'https://x.com/VaraNetwork/status/2080242009231540566',
       },
       {
-        title: 'Gear.exe performance benchmark demo',
+        title: 'Arkanoid Simulation: Gear.exe vs L2s',
         type: 'youtube',
         url: 'https://www.youtube.com/watch?v=KXLQ5kbteS0',
+        note: 'Built the simulation and demo video',
+      },
+      {
+        title: 'Arkanoid parallel simulation — source code',
+        type: 'github',
+        url: 'https://github.com/gear-foundation/arkanoid',
       },
       {
         title: 'OrderBook on Vara.eth demo',
@@ -1277,7 +1295,10 @@ function Materials() {
             {group.items.map(m => (
               <a key={m.title} href={m.url} target="_blank" rel="noreferrer" className="mat-row">
                 <span className="mat-type">[{m.type}]</span>
-                <span className="mat-title">{m.title}</span>
+                <span className="mat-title">
+                  {m.title}
+                  {m.note && <span className="mat-note">{m.note}</span>}
+                </span>
                 <span className="dim mat-arr">→</span>
               </a>
             ))}
