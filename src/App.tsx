@@ -234,12 +234,12 @@ const EXPERIENCE = [
         link: { label: '↗ examples', url: 'https://github.com/gear-foundation/dapps' },
       },
       {
-        text: 'Created technical documentation, ran developer workshops, and gave talks at Polkadot ecosystem events, Sub0, EthCC, and Ethereum conferences.',
-        link: { label: '↗ gear-wiki', url: 'https://github.com/gear-foundation/gear-wiki' },
+        text: 'Created technical documentation and ran developer workshops, including a Gear/SubQuery indexing workshop at the Encode hackathon alongside Polkadot Decoded 2023.',
+        link: { label: '↗ workshop recap', url: 'https://subquery.ghost.io/subquery-joins-polkadot-prague-polkadot-decoded/' },
       },
       {
-        text: 'Supported wallet, explorer, market data, and indexing integrations, including SubWallet, Subscan, CoinMarketCap, RPC setup, and network metadata.',
-        link: null,
+        text: 'Contributed Vara network integration to Polkadot.js Apps and supported wallet, explorer, market data, and indexing integrations, including SubWallet, Subscan, and CoinMarketCap.',
+        link: { label: '↗ Polkadot.js Apps', url: 'https://github.com/polkadot-js/apps/pull/8285' },
       },
     ],
   },
@@ -319,6 +319,11 @@ const MATERIAL_GROUPS = [
     description: 'code / videos / reference apps',
     items: [
       {
+        title: 'Gear & Vara at Polkadot World Madrid (2022)',
+        type: 'youtube',
+        url: 'https://www.youtube.com/watch?v=-lvdD7yVdME',
+      },
+      {
         title: 'Robo Miner (Digger) on Vara.eth demo',
         type: 'x',
         url: 'https://x.com/VaraNetwork/status/2080242009231540566',
@@ -352,14 +357,17 @@ const MATERIAL_GROUPS = [
 interface GalleryItem {
   src: string
   event: string
-  year: string
-  place: string
+  year?: string
+  place?: string
   note?: string
 }
 
 // drop photos into public/gallery/ and list them here:
 // { src: '/gallery/ethcc-2023.jpg', event: 'EthCC', year: '2023', place: 'Paris', note: 'talking Vara' },
 const GALLERY: GalleryItem[] = [
+  { src: '/gallery/polkadot-world-on-stage.jpg', event: 'Polkadot World', note: 'on stage' },
+  { src: '/gallery/polkadot-world-community.jpg', event: 'Polkadot World', note: 'community' },
+  { src: '/gallery/polkadot-decoded-vara-team.jpg', event: 'Polkadot Decoded', note: 'Vara team' },
   { src: '/gallery/event-01-vara-booth.webp', event: 'ETHGlobal', year: '2024', place: 'Brussels' },
   { src: '/gallery/event-02-stage-current-limitations.webp', event: 'Conference', year: '2024', place: 'Budapest' },
   { src: '/gallery/game-changer-brussels-2024-oracle-talk.webp', event: 'Conference', year: '2024', place: 'Budapest', note: 'oracle solutions' },
@@ -372,6 +380,9 @@ const GALLERY: GalleryItem[] = [
   { src: '/gallery/event-10-gear-protocol.webp', event: 'Polkadot Conference', year: '2024', place: 'Madrid' },
   { src: '/gallery/event-11-rust-code-walkthrough.webp', event: 'Workshop', year: '2024', place: 'Brussels' },
 ]
+
+const galleryEvent = (photo: GalleryItem) => [photo.event, photo.year].filter(Boolean).join(' ')
+const galleryAlt = (photo: GalleryItem) => [galleryEvent(photo), photo.place, photo.note].filter(Boolean).join(' — ')
 
 // ─── Particle title ───────────────────────────────────────────────────────────
 
@@ -1173,9 +1184,9 @@ function Gallery() {
           {items.map((p, i) => (
             <figure key={i} className="gal-cell"
               onClick={() => { if (!drag.current.moved) setOpen(i % GALLERY.length) }}>
-              <img src={p.src} alt={`${p.event} ${p.year} — ${p.place}`} loading="lazy" draggable={false} />
+              <img src={p.src} alt={galleryAlt(p)} loading="lazy" draggable={false} />
               <figcaption className="gal-cell-cap">
-                <span className="gal-tag">[{p.event.toLowerCase()} {p.year}]</span> {p.place}
+                <span className="gal-tag">[{galleryEvent(p).toLowerCase()}]</span> {p.place || p.note}
               </figcaption>
             </figure>
           ))}
@@ -1191,7 +1202,7 @@ function Gallery() {
               ‹
             </button>
           )}
-          <img src={item.src} alt={`${item.event} ${item.year} — ${item.place}`} onClick={e => e.stopPropagation()} />
+          <img src={item.src} alt={galleryAlt(item)} onClick={e => e.stopPropagation()} />
           {GALLERY.length > 1 && (
             <button className="gal-lb-nav gal-lb-next" aria-label="next"
               onClick={e => { e.stopPropagation(); setOpen(o => o === null ? o : (o + 1) % GALLERY.length) }}>
@@ -1199,7 +1210,7 @@ function Gallery() {
             </button>
           )}
           <div className="gal-lb-cap" onClick={e => e.stopPropagation()}>
-            <span className="gal-tag">[{item.event.toLowerCase()} {item.year}]</span> {item.place}
+            <span className="gal-tag">[{galleryEvent(item).toLowerCase()}]</span> {item.place}
             {item.note ? <span className="dim"> — {item.note}</span> : null}
             <span className="dim gal-lb-count"> · {(open as number) + 1}/{GALLERY.length}</span>
           </div>

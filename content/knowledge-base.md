@@ -54,8 +54,12 @@ Eugene describes technical leadership as understanding the architecture, full pi
 **Proof / materials:**
 - Contributor to `gear-foundation/dapps` — ecosystem example dApps (TypeScript, ~30★, 204 forks) — https://github.com/gear-foundation/dapps
 - Contributor to `gear-wiki` (~225★) — https://wiki.gear.foundation
-- Conference / hackathon talks & workshops: `[TODO: confirm exact names + years]` — hinted so far: a Polkadot event, SubZero
-- Workshop materials / slides / recordings: `[TODO: links]`
+- **Polkadot World Madrid, November 6, 2022:** Gear's event page links to the recording titled "Charla Gear Technologies de Eugene Filatov | 2da edición Polkadot World" on Polkadot en Español. [Recording](https://www.youtube.com/watch?v=-lvdD7yVdME), [event page](https://www.gear-tech.io/events/polkadot-world-madrid), [Gear's November recap naming Eugene](https://medium.com/@gear_techs/gear-monthly-updates-november-2022-e3454655c4e6).
+- **Encode hackathon alongside Polkadot Decoded 2023:** SubQuery's recap names Eugene Way, Katie Voronina, and James Bayly as hosts of a technical workshop on indexing data for Gear dApps with SubQuery. This was an accompanying hackathon workshop, not a claim of a main-stage Decoded talk. [Primary source](https://subquery.ghost.io/subquery-joins-polkadot-prague-polkadot-decoded/).
+- **Polkadot.js Apps contributions:** merged PRs by EugenWay include [adding Vara Network, #8285](https://github.com/polkadot-js/apps/pull/8285) (2022), [moving Vara to live networks, #9215](https://github.com/polkadot-js/apps/pull/9215) (2023), [adding Vara Testnet, #10098](https://github.com/polkadot-js/apps/pull/10098) (2023), and [Vara inflation parameters, #10164](https://github.com/polkadot-js/apps/pull/10164) (2024). These are integrations/configuration in Apps, not evidence of implementing Polkadot's runtime or consensus.
+- **Polkadot Day Budapest, March 22, 2024:** Vara's [announcement](https://x.com/VaraNetwork/status/1770791769107521678) tags Eugene (@EvlampySpack) as the presenter of the meme-token workshop; its [photo report](https://x.com/VaraNetwork/status/1772609589629898815) contains three workshop photos. Do not identify people by facial similarity.
+- Eugene supplied three additional gallery photos on October 27, 2026: Polkadot World stage and community photos, and a Vara team photo at Polkadot Decoded. Event branding is visible; dates and locations of these particular photos remain unconfirmed, so their gallery captions omit those fields.
+- Other conference names, years, and recordings: `[TODO: confirm]`.
 - Example programs / use-case repos authored: `[TODO: links]`
 
 ---
@@ -136,7 +140,7 @@ Russian (native), English (upper-intermediate), Spanish (basic)
 ## Open questions to fill (by phase)
 
 **Phase 1 (start here):**
-1. Exact conference / hackathon names + years you spoke at (you mentioned a Polkadot event, SubZero — confirm the full list).
+1. Remaining conference / hackathon names and years beyond the verified Polkadot World, Decoded workshop, and Polkadot Day examples above. Dates and locations for the three newly supplied gallery photos.
 2. Links to workshop materials / talk recordings / slides.
 3. Which example programs / use-case repos did you author? (links)
 4. Your actual title in this phase — "Ecosystem Lead"? something else?
